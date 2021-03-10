@@ -18,7 +18,7 @@
         app:srcCompat="@drawable/background" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/titleImgView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="179dp"

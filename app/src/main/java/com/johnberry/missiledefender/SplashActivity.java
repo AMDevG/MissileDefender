@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -16,6 +19,10 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
+        ImageView myImageView= (ImageView)findViewById(R.id.titleImgView);
+        Animation myFadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.slide_in);
+        myImageView.startAnimation(myFadeInAnimation); //Set animation to your ImageView
 
         new Handler().postDelayed(() -> {
             Intent i =
