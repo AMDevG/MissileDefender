@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 
+import java.util.Random;
+
 public class Missile {
 
     private final MainActivity mainActivity;
@@ -37,8 +39,12 @@ public class Missile {
         int startY = 0;
         int endY = screenHeight;
 
+        Random R = new Random();
+        int startX = (int) (Math.random() * screenWidth);
+        int endX = screenWidth;
 
-        ObjectAnimator xAnim = ObjectAnimator.ofFloat(imageView, "x", 0f, screenHeight);
+
+        ObjectAnimator xAnim = ObjectAnimator.ofFloat(imageView, "x", startX, endX);
         xAnim.setInterpolator(new LinearInterpolator());
         xAnim.setDuration(screenTime);
 
