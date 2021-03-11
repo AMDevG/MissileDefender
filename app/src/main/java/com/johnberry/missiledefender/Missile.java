@@ -34,13 +34,14 @@ public class Missile {
     AnimatorSet setData(final int drawId) {
         mainActivity.runOnUiThread(() -> imageView.setImageResource(drawId));
 
-        int startY = (int) (Math.random() * screenHeight * 0.8);
-        int endY = (startY + (Math.random() < 0.5 ? 150 : -150));
+        int startY = 0;
+        int endY = screenHeight;
 
 
-        ObjectAnimator xAnim = ObjectAnimator.ofFloat(imageView, "x", -200, (screenWidth + 200));
+        ObjectAnimator xAnim = ObjectAnimator.ofFloat(imageView, "x", 0f, screenHeight);
         xAnim.setInterpolator(new LinearInterpolator());
         xAnim.setDuration(screenTime);
+
         xAnim.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
