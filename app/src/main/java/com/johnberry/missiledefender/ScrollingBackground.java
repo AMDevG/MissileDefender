@@ -2,6 +2,7 @@ package com.johnberry.missiledefender;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.ViewGroup;
@@ -38,6 +39,7 @@ class ScrollingBackground {
         backImageA.setLayoutParams(params);
         backImageB.setLayoutParams(params);
 
+
         layout.addView(backImageA);
         layout.addView(backImageB);
 
@@ -46,6 +48,8 @@ class ScrollingBackground {
 
         backImageA.setImageBitmap(backBitmapA);
         backImageB.setImageBitmap(backBitmapB);
+
+
 
         backImageA.setScaleType(ImageView.ScaleType.FIT_XY);
         backImageB.setScaleType(ImageView.ScaleType.FIT_XY);
