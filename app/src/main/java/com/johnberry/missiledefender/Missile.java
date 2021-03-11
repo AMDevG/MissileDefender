@@ -41,7 +41,7 @@ public class Missile {
 
         Random R = new Random();
         int startX = (int) (Math.random() * screenWidth);
-        int endX = screenWidth;
+        int endX = (int) (Math.random() * screenWidth);
 
 
         ObjectAnimator xAnim = ObjectAnimator.ofFloat(imageView, "x", startX, endX);
