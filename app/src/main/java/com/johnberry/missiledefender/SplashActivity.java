@@ -22,7 +22,10 @@ public class SplashActivity extends AppCompatActivity {
 
         ImageView myImageView= (ImageView)findViewById(R.id.titleImgView);
         Animation myFadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.slide_in);
-        myImageView.startAnimation(myFadeInAnimation); //Set animation to your ImageView
+        myImageView.startAnimation(myFadeInAnimation);
+
+        SoundPlayer.setupSound(this, "background", R.raw.background);
+        SoundPlayer.start("background");
 
         new Handler().postDelayed(() -> {
             Intent i =

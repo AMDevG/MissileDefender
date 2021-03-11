@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
     public static int screenHeight;
     public static int screenWidth;
     private static final float yCoord = 50;
+    private static final float xCoord = 50;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,17 +30,13 @@ public class MainActivity extends AppCompatActivity {
         ImageView cloudImage = findViewById(R.id.cloudImage);
         ViewGroup layout = findViewById(R.id.layout);
 
-        new ScrollingBackground(this,
-                layout, R.drawable.clouds, 4000);
+        SoundPlayer.setupSound(this, "base_blast", R.raw.base_blast);
+        SoundPlayer.setupSound(this, "interceptor_blast", R.raw.interceptor_blast);
+        SoundPlayer.setupSound(this, "interceptor_hit_missile", R.raw.interceptor_hit_missile);
+        SoundPlayer.setupSound(this, "launch_interceptor", R.raw.launch_interceptor);
+        SoundPlayer.setupSound(this, "launch_missile", R.raw.launch_missile);
+        SoundPlayer.setupSound(this, "missile_miss", R.raw.missile_miss);
 
-        cloudImage.setY(yCoord);
-        ObjectAnimator oa =
-                ObjectAnimator.ofFloat(cloudImage, "y", yCoord + 175);
-        oa.setStartDelay(500);
-        oa.setDuration(2000);
-        oa.setRepeatMode(ValueAnimator.REVERSE);
-        oa.setRepeatCount(ValueAnimator.INFINITE);
-        oa.start();
     }
 
     private void getScreenDimensions() {
