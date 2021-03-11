@@ -15,18 +15,40 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
+import java.util.ArrayList;
+import java.util.Locale;
+
 public class MainActivity extends AppCompatActivity {
 
     private ConstraintLayout layout;
+    private ArrayList<Base> baseList = new ArrayList<>();
     public static int screenHeight;
     public static int screenWidth;
     private int scoreValue;
+    private ImageView base1, base2, base3;
+
+    private MissileMaker missileMaker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
+        setupFullScreen();
+        getScreenDimensions();
+        setupSounds();
+
+        base1 = findViewById(R.id.baseOneImg);
+        base2 = findViewById(R.id.baseTwoImg);
+        base3 = findViewById(R.id.baseThreeImg);
+
+        Base base1obj = new Base(base1);
+        Base base2obj = new Base(base2);
+        Base base3obj = new Base(base3);
+        baseList.add(base1obj);
+        baseList.add(base2obj);
+        baseList.add(base3obj);
 
         layout = findViewById(R.id.layout);
         layout.setOnTouchListener((view, motionEvent) -> {
@@ -38,11 +60,10 @@ public class MainActivity extends AppCompatActivity {
 
         new ScrollingBackground(this,
                 layout, R.drawable.clouds, 6000);
+    }
 
-        setupFullScreen();
-        getScreenDimensions();
-        setupSounds();
-
+    public void setLevel(final int value) {
+//        runOnUiThread(() -> level.setText(String.format(Locale.getDefault(), "Level: %d", value)));
     }
 
     public void handleTouch(float xLoc, float yLoc) {
@@ -58,7 +79,9 @@ public class MainActivity extends AppCompatActivity {
 //        i.launch();
     }
 
-
+    public void removePlane(Missile m) {
+        missileMaker.removeMissile(m);
+    }
 
 
 
@@ -79,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         screenHeight = displayMetrics.heightPixels;
-        screenWidth = displayMetrics.widthPixels;
+        screenWidth = displayMetrics.widthPixels + getBarHeight();
     }
 
     private void setupFullScreen() {
@@ -92,5 +115,13 @@ public class MainActivity extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_FULLSCREEN
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+    }
+
+    private int getBarHeight() {
+        int resourceId = this.getResources().getIdentifier("navigation_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            return this.getResources().getDimensionPixelSize(resourceId);
+        }
+        return 0;
     }
 }
