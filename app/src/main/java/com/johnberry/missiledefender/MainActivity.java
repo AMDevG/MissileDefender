@@ -22,7 +22,6 @@ public class MainActivity extends AppCompatActivity {
     public static int screenWidth;
     private int scoreValue;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,17 +39,9 @@ public class MainActivity extends AppCompatActivity {
         new ScrollingBackground(this,
                 layout, R.drawable.clouds, 6000);
 
-
         setupFullScreen();
         getScreenDimensions();
-
-
-        SoundPlayer.setupSound(this, "base_blast", R.raw.base_blast);
-        SoundPlayer.setupSound(this, "interceptor_blast", R.raw.interceptor_blast);
-        SoundPlayer.setupSound(this, "interceptor_hit_missile", R.raw.interceptor_hit_missile);
-        SoundPlayer.setupSound(this, "launch_interceptor", R.raw.launch_interceptor);
-        SoundPlayer.setupSound(this, "launch_missile", R.raw.launch_missile);
-        SoundPlayer.setupSound(this, "missile_miss", R.raw.missile_miss);
+        setupSounds();
 
     }
 
@@ -71,7 +62,14 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
+    private void setupSounds(){
+        SoundPlayer.setupSound(this, "base_blast", R.raw.base_blast);
+        SoundPlayer.setupSound(this, "interceptor_blast", R.raw.interceptor_blast);
+        SoundPlayer.setupSound(this, "interceptor_hit_missile", R.raw.interceptor_hit_missile);
+        SoundPlayer.setupSound(this, "launch_interceptor", R.raw.launch_interceptor);
+        SoundPlayer.setupSound(this, "launch_missile", R.raw.launch_missile);
+        SoundPlayer.setupSound(this, "missile_miss", R.raw.missile_miss);
+    }
 
     public ConstraintLayout getLayout() {
         return layout;

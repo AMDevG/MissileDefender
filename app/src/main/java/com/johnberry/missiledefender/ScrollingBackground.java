@@ -35,10 +35,10 @@ class ScrollingBackground {
         backImageB = new ImageView(context);
 
         LinearLayout.LayoutParams params = new LinearLayout
-                .LayoutParams(screenWidth + getBarHeight(), screenHeight);
+                .LayoutParams(screenWidth + getBarHeight(), screenHeight );
+
         backImageA.setLayoutParams(params);
         backImageB.setLayoutParams(params);
-
 
         layout.addView(backImageA);
         layout.addView(backImageB);
@@ -49,10 +49,8 @@ class ScrollingBackground {
         backImageA.setImageBitmap(backBitmapA);
         backImageB.setImageBitmap(backBitmapB);
 
-
-
-        backImageA.setScaleType(ImageView.ScaleType.FIT_XY);
-        backImageB.setScaleType(ImageView.ScaleType.FIT_XY);
+        backImageA.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        backImageB.setScaleType(ImageView.ScaleType.FIT_CENTER);
 
         backImageA.setZ(-1);
         backImageB.setZ(-1);
@@ -91,5 +89,7 @@ class ScrollingBackground {
         }
         return 0;
     }
+
+
 
 }
