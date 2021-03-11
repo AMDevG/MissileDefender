@@ -2,7 +2,6 @@ package com.johnberry.missiledefender;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
-import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.ViewGroup;
@@ -13,12 +12,14 @@ import android.widget.LinearLayout;
 import static com.johnberry.missiledefender.MainActivity.screenHeight;
 import static com.johnberry.missiledefender.MainActivity.screenWidth;
 
+
 class ScrollingBackground {
 
     private final Context context;
     private final ViewGroup layout;
     private ImageView backImageA;
     private ImageView backImageB;
+
     private final long duration;
     private final int resId;
 
@@ -35,7 +36,7 @@ class ScrollingBackground {
         backImageB = new ImageView(context);
 
         LinearLayout.LayoutParams params = new LinearLayout
-                .LayoutParams(screenWidth + getBarHeight(), screenHeight );
+                .LayoutParams(screenWidth + getBarHeight(), screenHeight);
 
         backImageA.setLayoutParams(params);
         backImageB.setLayoutParams(params);
@@ -49,8 +50,8 @@ class ScrollingBackground {
         backImageA.setImageBitmap(backBitmapA);
         backImageB.setImageBitmap(backBitmapB);
 
-        backImageA.setScaleType(ImageView.ScaleType.FIT_CENTER);
-        backImageB.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        backImageA.setScaleType(ImageView.ScaleType.FIT_XY);
+        backImageB.setScaleType(ImageView.ScaleType.FIT_XY);
 
         backImageA.setZ(-1);
         backImageB.setZ(-1);
@@ -81,7 +82,6 @@ class ScrollingBackground {
         animator.start();
     }
 
-
     private int getBarHeight() {
         int resourceId = context.getResources().getIdentifier("navigation_bar_height", "dimen", "android");
         if (resourceId > 0) {
@@ -89,7 +89,5 @@ class ScrollingBackground {
         }
         return 0;
     }
-
-
 
 }
