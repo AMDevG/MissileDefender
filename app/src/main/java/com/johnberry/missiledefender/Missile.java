@@ -47,7 +47,7 @@ public class Missile {
                 mainActivity.runOnUiThread(() -> {
                     if (!hit) {
                         mainActivity.getLayout().removeView(imageView);
-                        mainActivity.removePlane(Missile.this);
+                        mainActivity.removeMissile(Missile.this);
                     }
                 });
             }

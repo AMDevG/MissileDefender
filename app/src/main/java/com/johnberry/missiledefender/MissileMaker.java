@@ -67,7 +67,7 @@ public class MissileMaker implements Runnable {
     }
 
     private int pickMissile(){
-        return -1;
+        return R.drawable.missile;
     }
 
     void removeMissile(Missile m) {

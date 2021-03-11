@@ -60,6 +60,9 @@ public class MainActivity extends AppCompatActivity {
 
         new ScrollingBackground(this,
                 layout, R.drawable.clouds, 6000);
+
+        missileMaker = new MissileMaker(this, screenWidth, screenHeight);
+        new Thread(missileMaker).start();
     }
 
     public void setLevel(final int value) {
@@ -79,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
 //        i.launch();
     }
 
-    public void removePlane(Missile m) {
+    public void removeMissile(Missile m) {
         missileMaker.removeMissile(m);
     }
 
