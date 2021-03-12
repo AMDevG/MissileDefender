@@ -39,7 +39,6 @@ public class Missile {
         int startY = 0;
         int endY = screenHeight;
 
-        Random R = new Random();
         int startX = (int) (Math.random() * screenWidth);
         int endX = (int) (Math.random() * screenWidth);
 

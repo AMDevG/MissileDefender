@@ -74,7 +74,31 @@ public class MissileMaker implements Runnable {
         activeMissiles.remove(m);
     }
 
+    void applyInterceptorBlast(Interceptor interceptor) {
 
+        float interceptorX = interceptor.getX();
+        float interceptorY = interceptor.getY();
+
+        ArrayList<Missile> nowGone = new ArrayList<>();
+        ArrayList<Missile> temp = new ArrayList<>(activeMissiles);
+
+        for (Missile m : temp) {
+            float planeX = (int) (m.getX() + (0.5 * m.getWidth()));
+            float planeY = (int) (m.getY() + (0.5 * m.getHeight()));
+            float distanceBetween = (float) Math.sqrt((planeY - interceptorY) * (planeY - interceptorY) + (planeX - interceptorX) * (planeX - interceptorX));
+
+            if (distanceBetween < INTERCEPTOR_BLAST_RANGE) {
+                SoundPlayer.start("interceptor_hit_plane");
+//                mainActivity.incrementScore();
+                m.interceptorBlast(planeX, planeY);
+                nowGone.add(m);
+            }
+        }
+
+        for (Missile m : nowGone) {
+            activeMissiles.remove(m);
+        }
+    }
 
 
 }

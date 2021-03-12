@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     public static int screenHeight;
     public static int screenWidth;
     private int scoreValue;
-    private ImageView base1, base2, base3;
+    private ImageView base1, base2, base3, launcher;
 
     private MissileMaker missileMaker;
 
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         setupSounds();
 
         base1 = findViewById(R.id.baseOneImg);
-        base2 = findViewById(R.id.baseTwoImg);
+        launcher = findViewById(R.id.baseTwoImg);
         base3 = findViewById(R.id.baseThreeImg);
 
         Base base1obj = new Base(base1);
@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         baseList.add(base3obj);
 
         layout = findViewById(R.id.layout);
+
         layout.setOnTouchListener((view, motionEvent) -> {
             if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                 handleTouch(motionEvent.getX(), motionEvent.getY());
@@ -71,20 +72,39 @@ public class MainActivity extends AppCompatActivity {
 
     public void handleTouch(float xLoc, float yLoc) {
 
-//        double startX = launcher.getX() + (0.5 * launcher.getWidth());
-//        double startY = launcher.getY() + (0.5 * launcher.getHeight());
-//
-//        float angle = calculateAngle(startX, startY, xLoc, yLoc);
-//        launcher.setRotation(angle-70); // Launcher starts 70 degrees off straight-up
-//
-//        Interceptor i = new Interceptor(this,  (float) (startX - 10), (float) (startY - 30), xLoc, yLoc);
-//        SoundPlayer.start("launch_interceptor");
-//        i.launch();
+        System.out.println("*********** \n TOUCH RECEIVED ******** \n");
+
+        double startX = launcher.getX() + (0.5 * launcher.getWidth());
+        double startY = launcher.getY() + (0.5 * launcher.getHeight());
+
+        float angle = calculateAngle(startX, startY, xLoc, yLoc);
+        launcher.setRotation(angle-70); // Launcher starts 70 degrees off straight-up
+
+        Interceptor i = new Interceptor(this,  (float) (startX - 10), (float) (startY - 30), xLoc, yLoc);
+        SoundPlayer.start("launch_interceptor");
+        i.launch();
+    }
+
+    public static float calculateAngle(double x1, double y1, double x2, double y2) {
+        double angle = Math.toDegrees(Math.atan2(x2 - x1, y2 - y1));
+        // Keep angle between 0 and 360
+        angle = angle + Math.ceil(-angle / 360) * 360;
+        return (float) (190.0f - angle);
     }
 
     public void removeMissile(Missile m) {
         missileMaker.removeMissile(m);
     }
+
+
+    public void applyInterceptorBlast(Interceptor interceptor) {
+        missileMaker.applyInterceptorBlast(interceptor);
+//        interceptorBlast++;
+//        double acc = (double) scoreValue / interceptorBlast;
+//        accuracy.setText(String.format(Locale.getDefault(),
+//                "Accuracy: %.0f%%", acc * 100.0));
+    }
+
 
 
 
