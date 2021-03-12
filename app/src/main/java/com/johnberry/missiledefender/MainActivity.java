@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         double startY = launcher.getY() + (0.5 * launcher.getHeight());
 
         float angle = calculateAngle(startX, startY, xLoc, yLoc);
-        launcher.setRotation(angle-70); // Launcher starts 70 degrees off straight-up
+//        launcher.setRotation(angle-70); // Launcher starts 70 degrees off straight-up
 
         Interceptor i = new Interceptor(this,  (float) (startX - 10), (float) (startY - 30), xLoc, yLoc);
         SoundPlayer.start("launch_interceptor");
