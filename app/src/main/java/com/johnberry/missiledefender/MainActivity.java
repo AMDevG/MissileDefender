@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -26,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
     public static int screenWidth;
     private int scoreValue;
     private ImageView base1, base2, base3, launcher;
+    private TextView scoreBox;
+    private double interceptorBlast;
 
     private MissileMaker missileMaker;
 
@@ -42,6 +45,9 @@ public class MainActivity extends AppCompatActivity {
         base1 = findViewById(R.id.baseOneImg);
         launcher = findViewById(R.id.baseTwoImg);
         base3 = findViewById(R.id.baseThreeImg);
+        scoreBox = findViewById(R.id.scoreBoxText);
+
+
 
         Base base1obj = new Base(base1);
         Base base2obj = new Base(base2);
@@ -99,12 +105,14 @@ public class MainActivity extends AppCompatActivity {
 
     public void applyInterceptorBlast(Interceptor interceptor) {
         missileMaker.applyInterceptorBlast(interceptor);
-//        interceptorBlast++;
-//        double acc = (double) scoreValue / interceptorBlast;
-//        accuracy.setText(String.format(Locale.getDefault(),
-//                "Accuracy: %.0f%%", acc * 100.0));
+        interceptorBlast++;
+        double acc = (double) scoreValue / interceptorBlast;
     }
 
+    public void incrementScore() {
+        scoreValue++;
+        scoreBox.setText(String.format(Locale.getDefault(), "Score: %d", scoreValue));
+    }
 
 
 

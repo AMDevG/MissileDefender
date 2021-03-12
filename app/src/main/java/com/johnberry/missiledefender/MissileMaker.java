@@ -35,6 +35,7 @@ public class MissileMaker implements Runnable {
         setRunning(true);
         while (isRunning) {
             planeCount++;
+            System.out.println("PLane count is: " + planeCount);
             int resId = pickMissile();
 
             long missileTime = (long) ((delay * 0.5) + (Math.random() * delay));
@@ -46,6 +47,7 @@ public class MissileMaker implements Runnable {
 
 
             if (planeCount > LEVEL_CHANGE_VALUE) {
+                System.out.println("\n *********** Changing Level Now! ********* \n");
                 LEVEL_CHANGE_VALUE *= 1.5;
                 level++;
                 mainActivity.setLevel(level);
@@ -88,8 +90,8 @@ public class MissileMaker implements Runnable {
             float distanceBetween = (float) Math.sqrt((planeY - interceptorY) * (planeY - interceptorY) + (planeX - interceptorX) * (planeX - interceptorX));
 
             if (distanceBetween < INTERCEPTOR_BLAST_RANGE) {
-                SoundPlayer.start("interceptor_hit_plane");
-//                mainActivity.incrementScore();
+                SoundPlayer.start("interceptor_hit_missile");
+                mainActivity.incrementScore();
                 m.interceptorBlast(planeX, planeY);
                 nowGone.add(m);
             }
