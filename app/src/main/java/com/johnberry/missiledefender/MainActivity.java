@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         setupSounds();
 
         base1 = findViewById(R.id.baseOneImg);
-        launcher = findViewById(R.id.baseTwoImg);
+        base2 = findViewById(R.id.baseTwoImg);
         base3 = findViewById(R.id.baseThreeImg);
         scoreBox = findViewById(R.id.scoreBoxText);
 
@@ -80,11 +80,39 @@ public class MainActivity extends AppCompatActivity {
 
         System.out.println("*********** \n TOUCH RECEIVED ******** \n");
 
+//        launcher = base1;
+        /// SET BASE TO LAUNCHER AFTER CALCING CLOSEST ONE
+
+//        launcher.setRotation(angle-70); // Launcher starts 70 degrees off straight-up
+
+        System.out.println("Touch is at X Coord: " + xLoc);
+        System.out.println("-------------------------");
+        System.out.println("Coordinates for bases are: ");
+
+        Base closestBase = null;
+        float shortestDistance = 0;
+        float touchXloc = xLoc;
+
+        for(Base b : baseList){
+            float tmpDist = (float) Math.abs(b.getBaseX() - touchXloc);
+
+            if (shortestDistance == 0){
+                shortestDistance = tmpDist;
+                closestBase = b;
+            }
+            else if (tmpDist < shortestDistance){
+                    shortestDistance = tmpDist;
+                    closestBase = b;
+                }
+            }
+
+        System.out.println("Shortest distance is: " + shortestDistance);
+        launcher = closestBase.getBaseImg();
+
         double startX = launcher.getX() + (0.5 * launcher.getWidth());
         double startY = launcher.getY() + (0.5 * launcher.getHeight());
 
         float angle = calculateAngle(startX, startY, xLoc, yLoc);
-//        launcher.setRotation(angle-70); // Launcher starts 70 degrees off straight-up
 
         Interceptor i = new Interceptor(this,  (float) (startX - 10), (float) (startY - 30), xLoc, yLoc);
         SoundPlayer.start("launch_interceptor");

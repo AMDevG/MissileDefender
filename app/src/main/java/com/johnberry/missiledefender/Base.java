@@ -19,5 +19,7 @@ public class Base {
         return y_factor;
     }
 
-
+    public ImageView getBaseImg() {
+        return baseImg;
+    }
 }
