@@ -17,7 +17,6 @@ public class Missile {
     private final MainActivity mainActivity;
     private  ImageView imageView;
     private final AnimatorSet aSet = new AnimatorSet();
-    private ArrayList<Base> bases;
     private final int screenHeight;
     private final int screenWidth;
     private final long screenTime;
@@ -30,9 +29,7 @@ public class Missile {
         this.screenHeight = screenHeight;
         this.screenTime = screenTime;
         this.mainActivity = mainActivity;
-
         imageView = new ImageView(mainActivity);
-//        this.bases = mainActivity.getBaseList();
 
         mainActivity.runOnUiThread(() -> mainActivity.getLayout().addView(imageView));
 
@@ -67,8 +64,6 @@ public class Missile {
         yAnim.setDuration(screenTime);
 
     }
-
-
 
     AnimatorSet setData(final int drawId) {
 
@@ -108,12 +103,9 @@ public class Missile {
 
         aSet.playTogether(xAnim, yAnim);
         return aSet;
-
     }
 
     void groundBlast(float x, float y){
-
-//        System.out.println("Baselist size: " + mainActivity.getBaseList().size());
 
         final ImageView iv = new ImageView(mainActivity);
         iv.setImageResource(R.drawable.explode);
@@ -125,29 +117,21 @@ public class Missile {
         iv.setX(x - offset);
         iv.setY(y - offset);
         iv.setZ(-15);
-//        iv.setRotation((float) (360.0 * Math.random()));
 
         aSet.cancel();
-
-//        mainActivity.getLayout().removeView(imageView);
         mainActivity.getLayout().addView(iv);
 
         ArrayList<Base> bases = mainActivity.getBaseList();
-
         int LETHAL_PROXIMITY_RANGE = 200;
-
         Base baseToRemove = null;
         boolean base_destroyed = false;
 
-
         if(!bases.isEmpty()) {
-
             for (Base b : bases) {
                 float x_coord = (float) b.getBaseX();
                 int explosionRange = (int) Math.abs(x_coord - x);
 
                 if (explosionRange <= LETHAL_PROXIMITY_RANGE) {
-                    System.out.println("BASE IS DESTROYED");
                     base_destroyed = true;
                     b.destroyBase();
                     baseToRemove = b;
@@ -161,20 +145,16 @@ public class Missile {
                 });
 
                 bases.remove(baseToRemove);
-                System.out.println("BASE REMOVED!");
-                base_destroyed = false;
+
 
                 if(bases.isEmpty()){
                     mainActivity.runOnUiThread(() -> {
                         mainActivity.endGame();
                     });
                 }
+                base_destroyed = false;
             }
         }
-
-
-//            mainActivity.runOnUiThread(() -> {
-//                mainActivity.getLayout().removeView(imageView);}
 
         final ObjectAnimator alpha = ObjectAnimator.ofFloat(iv, "alpha", 0.0f);
         alpha.setInterpolator(new LinearInterpolator());
@@ -187,9 +167,7 @@ public class Missile {
             }
         });
         alpha.start();
-//        mainActivity.applyGroundBlast(this);
     }
-
 
     void stop(){ aSet.cancel();}
 
@@ -209,12 +187,10 @@ public class Missile {
         return imageView.getHeight();
     }
 
-
     void interceptorBlast(float x, float y) {
 
         final ImageView iv = new ImageView(mainActivity);
         iv.setImageResource(R.drawable.explode);
-
         iv.setTransitionName("Missile Intercepted Blast");
 
         int w = imageView.getDrawable().getIntrinsicWidth();
@@ -237,10 +213,7 @@ public class Missile {
             public void onAnimationEnd(Animator animation) {
                 mainActivity.getLayout().removeView(imageView);
             }
-
         });
         alpha.start();
     }
-
-
 }

@@ -89,7 +89,6 @@ class Interceptor {
             }
         });
         alpha.start();
-
         mainActivity.applyInterceptorBlast(this);
     }
 

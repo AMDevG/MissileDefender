@@ -15,6 +15,7 @@ public class Base {
     public void destroyBase(){
         isDestroyed = true;
     }
+
     public double getBaseX(){
         double x_factor = baseImg.getX() + (0.5 * baseImg.getWidth());
         return x_factor;

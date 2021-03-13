@@ -35,11 +35,8 @@ public class MissileMaker implements Runnable {
         setRunning(true);
         while (isRunning) {
 
-
             planeCount++;
-//            System.out.println("PLane count is: " + planeCount);
             int resId = pickMissile();
-
             long missileTime = (long) ((delay * 0.5) + (Math.random() * delay));
 
             final Missile missile = new Missile(screenWidth, screenHeight, missileTime, mainActivity);
@@ -63,12 +60,8 @@ public class MissileMaker implements Runnable {
                 if (delay < 400) // But don't let the delay go down to 0
                     delay = 400;
 
-                System.out.println("***** Delay is: " + delay + " ********* \n");
                 planeCount = 0;
-                System.out.println("*********** Missile CountReset: " + planeCount + " ********* \n");
-
             }
-
             try {
                 Thread.sleep((long) (0.5 * delay));
             } catch (InterruptedException e) {
@@ -128,6 +121,5 @@ public class MissileMaker implements Runnable {
         for (Missile m : nowGone) {
             activeMissiles.remove(m);
         }
-
     }
 }
