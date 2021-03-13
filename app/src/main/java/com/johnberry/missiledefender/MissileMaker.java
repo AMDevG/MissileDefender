@@ -14,7 +14,7 @@ public class MissileMaker implements Runnable {
     private static int LEVEL_CHANGE_VALUE = 5; // Change level after this many planes
     private static final int INTERCEPTOR_BLAST_RANGE = 150;
     private int level = 1;
-    private long delay = 3000; // Pause between new planes
+    private long delay = 4500; // Pause between new planes
 
     MissileMaker(MainActivity mainActivity, int screenWidth, int screenHeight){
         this.mainActivity = mainActivity;
@@ -53,7 +53,7 @@ public class MissileMaker implements Runnable {
                 level++;
                 mainActivity.setLevel(level);
 
-                delay -= 300; // Reduce the delay between planes
+                delay -= 400; // Reduce the delay between planes
 
                 if (delay < 200) // But don't let the delay go down to 0
                     delay = 200;
