@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     public static int screenWidth;
     private int scoreValue;
     private ImageView base1, base2, base3, launcher;
-    private TextView scoreBox;
+    private TextView scoreBox,levelBox;
     private double interceptorBlast;
 
     private MissileMaker missileMaker;
@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
         base2 = findViewById(R.id.baseTwoImg);
         base3 = findViewById(R.id.baseThreeImg);
         scoreBox = findViewById(R.id.scoreBoxText);
+        levelBox = findViewById(R.id.levelTextView);
 
 
 
@@ -73,21 +74,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setLevel(final int value) {
-//        runOnUiThread(() -> level.setText(String.format(Locale.getDefault(), "Level: %d", value)));
+        runOnUiThread(() -> levelBox.setText(String.format(Locale.getDefault(), "Level: %d", value)));
     }
 
     public void handleTouch(float xLoc, float yLoc) {
-
-        System.out.println("*********** \n TOUCH RECEIVED ******** \n");
-
-//        launcher = base1;
-        /// SET BASE TO LAUNCHER AFTER CALCING CLOSEST ONE
-
-//        launcher.setRotation(angle-70); // Launcher starts 70 degrees off straight-up
-
-        System.out.println("Touch is at X Coord: " + xLoc);
-        System.out.println("-------------------------");
-        System.out.println("Coordinates for bases are: ");
 
         Base closestBase = null;
         float shortestDistance = 0;
@@ -106,7 +96,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
-        System.out.println("Shortest distance is: " + shortestDistance);
         launcher = closestBase.getBaseImg();
 
         double startX = launcher.getX() + (0.5 * launcher.getWidth());

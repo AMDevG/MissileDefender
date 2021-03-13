@@ -56,4 +56,17 @@
         app:layout_constraintEnd_toStartOf="@+id/baseOneImg"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <TextView
+        android:id="@+id/levelTextView"
+        android:layout_width="72dp"
+        android:layout_height="46dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="12dp"
+        android:textAlignment="center"
+        android:textColor="@color/teal_200"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/baseThreeImg" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
