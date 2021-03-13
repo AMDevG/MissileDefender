@@ -43,10 +43,6 @@ public class Missile {
         int startX = (int) (Math.random() * screenWidth);
         int endX = (int) (Math.random() * screenWidth);
 
-        ///CALCULATE ANGLES
-//        int missileWidth = imageView.getDrawable().getIntrinsicWidth();
-
-
         ObjectAnimator xAnim = ObjectAnimator.ofFloat(imageView, "x", startX, endX);
         xAnim.setInterpolator(new LinearInterpolator());
         xAnim.setDuration(screenTime);
@@ -60,11 +56,17 @@ public class Missile {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
 
-                float yVal = getY() ;
-//                System.out.println("yVal in Update is: " + yVal);
+                if(getY() > (screenHeight * 0.85)){
+                    groundBlast(getX(), getY());
+                    xAnim.cancel();
+                    yAnim.cancel();
 
-                if(yVal > (screenHeight * 0.85)){
-                    makeGroundBlast(getX(), yVal);
+                    mainActivity.runOnUiThread(() -> {
+                        if (!hit) {
+                            mainActivity.getLayout().removeView(imageView);
+                            mainActivity.removeMissile(Missile.this);
+                        }
+                    });
                 }
             }
         });
@@ -87,7 +89,7 @@ public class Missile {
 
     }
 
-    void makeGroundBlast(float x, float y){
+    void groundBlast(float x, float y){
 
         final ImageView iv = new ImageView(mainActivity);
         iv.setImageResource(R.drawable.blast);
@@ -107,7 +109,8 @@ public class Missile {
 
         final ObjectAnimator alpha = ObjectAnimator.ofFloat(iv, "alpha", 0.0f);
         alpha.setInterpolator(new LinearInterpolator());
-        alpha.setDuration(3000);
+        alpha.setDuration(2000);
+
         alpha.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
@@ -116,6 +119,7 @@ public class Missile {
 
         });
         alpha.start();
+        mainActivity.removeMissile(this);
     }
 
 

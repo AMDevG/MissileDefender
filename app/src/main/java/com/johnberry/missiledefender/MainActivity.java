@@ -129,6 +129,11 @@ public class MainActivity extends AppCompatActivity {
         interceptorBlast++;
         double acc = (double) scoreValue / interceptorBlast;
     }
+    public void applyGroundBlast(Missile missile) {
+        missileMaker.applyGroundBlast(missile);
+        interceptorBlast++;
+        double acc = (double) scoreValue / interceptorBlast;
+    }
 
     public void incrementScore() {
         scoreValue++;

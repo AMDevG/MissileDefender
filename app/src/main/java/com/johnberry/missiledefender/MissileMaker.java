@@ -16,7 +16,7 @@ public class MissileMaker implements Runnable {
     private int level = 1;
     private long delay = 4000; // Pause between new planes
 
-    MissileMaker(MainActivity mainActivity, int screenWidth, int screenHeight){
+    MissileMaker(MainActivity mainActivity, int screenWidth, int screenHeight) {
         this.mainActivity = mainActivity;
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
@@ -46,22 +46,25 @@ public class MissileMaker implements Runnable {
 
             mainActivity.runOnUiThread(as::start);
 
-            if(level == 1){
+            if (level == 1) {
                 mainActivity.setLevel(level);
             }
 
             if (planeCount > LEVEL_CHANGE_VALUE) {
-                System.out.println("\n *********** Changing Level Now! ********* \n");
+
                 LEVEL_CHANGE_VALUE *= 1.5;
                 level++;
                 mainActivity.setLevel(level);
 
                 delay -= 200; // Reduce the delay between planes
 
-                if (delay < 500) // But don't let the delay go down to 0
-                    delay = 500;
+                if (delay < 400) // But don't let the delay go down to 0
+                    delay = 400;
 
+                System.out.println("***** Delay is: " + delay + " ********* \n");
                 planeCount = 0;
+                System.out.println("*********** Missile CountReset: " + planeCount + " ********* \n");
+
             }
 
             try {
@@ -72,7 +75,7 @@ public class MissileMaker implements Runnable {
         }
     }
 
-    private int pickMissile(){
+    private int pickMissile() {
         return R.drawable.missile;
     }
 
@@ -106,5 +109,23 @@ public class MissileMaker implements Runnable {
         }
     }
 
+    void applyGroundBlast(Missile missile) {
 
+        ArrayList<Missile> nowGone = new ArrayList<>();
+        ArrayList<Missile> temp = new ArrayList<>(activeMissiles);
+
+        for (Missile m : temp) {
+            float planeX = (int) (m.getX() + (0.5 * m.getWidth()));
+            float planeY = (int) (m.getY() + (0.5 * m.getHeight()));
+
+            SoundPlayer.start("base_blast");
+            m.groundBlast(planeX, planeY);
+            nowGone.add(m);
+        }
+
+        for (Missile m : nowGone) {
+            activeMissiles.remove(m);
+        }
+
+    }
 }
