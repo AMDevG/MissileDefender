@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Missile {
@@ -109,6 +110,8 @@ public class Missile {
 
     void groundBlast(float x, float y){
 
+        System.out.println("Baselist size: " + mainActivity.getBaseList().size());
+
         final ImageView iv = new ImageView(mainActivity);
         iv.setImageResource(R.drawable.explode);
         iv.setTransitionName("Missile Ground Blast");
@@ -125,6 +128,27 @@ public class Missile {
 
 //        mainActivity.getLayout().removeView(imageView);
         mainActivity.getLayout().addView(iv);
+
+        ArrayList<Base> bases = mainActivity.getBaseList();
+
+        int LETHAL_PROXIMITY_RANGE = 150;
+        for(Base b : bases) {
+            float x_coord = (float) b.getBaseX();
+            int explosionRange = (int) Math.abs(x_coord - x);
+
+            if (explosionRange <= LETHAL_PROXIMITY_RANGE) {
+                System.out.println("BASE IS DESTROYED");
+                b.destroyBase();
+                ImageView baseImage = b.getBaseImg();
+
+                mainActivity.runOnUiThread(() -> { mainActivity.getLayout().removeView(baseImage);});
+                bases.remove(b);
+                System.out.println("BASE REMOVED!");
+            }
+        }
+
+//            mainActivity.runOnUiThread(() -> {
+//                mainActivity.getLayout().removeView(imageView);}
 
         final ObjectAnimator alpha = ObjectAnimator.ofFloat(iv, "alpha", 0.0f);
         alpha.setInterpolator(new LinearInterpolator());
