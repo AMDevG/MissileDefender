@@ -14,7 +14,7 @@ public class MissileMaker implements Runnable {
     private static int LEVEL_CHANGE_VALUE = 5; // Change level after this many planes
     private static final int INTERCEPTOR_BLAST_RANGE = 150;
     private int level = 1;
-    private long delay = 4500; // Pause between new planes
+    private long delay = 4000; // Pause between new planes
 
     MissileMaker(MainActivity mainActivity, int screenWidth, int screenHeight){
         this.mainActivity = mainActivity;
@@ -36,7 +36,7 @@ public class MissileMaker implements Runnable {
         while (isRunning) {
 
             planeCount++;
-            System.out.println("PLane count is: " + planeCount);
+//            System.out.println("PLane count is: " + planeCount);
             int resId = pickMissile();
 
             long missileTime = (long) ((delay * 0.5) + (Math.random() * delay));
@@ -46,6 +46,9 @@ public class MissileMaker implements Runnable {
 
             mainActivity.runOnUiThread(as::start);
 
+            if(level == 1){
+                mainActivity.setLevel(level);
+            }
 
             if (planeCount > LEVEL_CHANGE_VALUE) {
                 System.out.println("\n *********** Changing Level Now! ********* \n");
@@ -53,16 +56,16 @@ public class MissileMaker implements Runnable {
                 level++;
                 mainActivity.setLevel(level);
 
-                delay -= 400; // Reduce the delay between planes
+                delay -= 200; // Reduce the delay between planes
 
-                if (delay < 200) // But don't let the delay go down to 0
-                    delay = 200;
+                if (delay < 500) // But don't let the delay go down to 0
+                    delay = 500;
 
                 planeCount = 0;
             }
 
             try {
-                Thread.sleep(delay);
+                Thread.sleep((long) (0.5 * delay));
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

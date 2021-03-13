@@ -83,29 +83,33 @@ public class MainActivity extends AppCompatActivity {
         float shortestDistance = 0;
         float touchXloc = xLoc;
 
-        for(Base b : baseList){
-            float tmpDist = (float) Math.abs(b.getBaseX() - touchXloc);
+        if(baseList.size() != 0) {
+            for (Base b : baseList) {
+                float tmpDist = (float) Math.abs(b.getBaseX() - touchXloc);
 
-            if (shortestDistance == 0){
-                shortestDistance = tmpDist;
-                closestBase = b;
-            }
-            else if (tmpDist < shortestDistance){
+                if (shortestDistance == 0) {
+                    shortestDistance = tmpDist;
+                    closestBase = b;
+                } else if (tmpDist < shortestDistance) {
                     shortestDistance = tmpDist;
                     closestBase = b;
                 }
             }
 
-        launcher = closestBase.getBaseImg();
+            launcher = closestBase.getBaseImg();
 
-        double startX = launcher.getX() + (0.5 * launcher.getWidth());
-        double startY = launcher.getY() + (0.5 * launcher.getHeight());
+            double startX = launcher.getX() + (0.5 * launcher.getWidth());
+            double startY = launcher.getY() + (0.5 * launcher.getHeight());
 
-        float angle = calculateAngle(startX, startY, xLoc, yLoc);
+            float angle = calculateAngle(startX, startY, xLoc, yLoc);
 
-        Interceptor i = new Interceptor(this,  (float) (startX - 10), (float) (startY - 30), xLoc, yLoc);
-        SoundPlayer.start("launch_interceptor");
-        i.launch();
+            Interceptor i = new Interceptor(this, (float) (startX - 10), (float) (startY - 30), xLoc, yLoc);
+            SoundPlayer.start("launch_interceptor");
+            i.launch();
+        }
+        else{
+            System.out.println("GAME OVER!!!");
+        }
     }
 
     public static float calculateAngle(double x1, double y1, double x2, double y2) {

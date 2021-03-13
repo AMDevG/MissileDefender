@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.util.Log;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
@@ -36,20 +37,42 @@ public class Missile {
     AnimatorSet setData(final int drawId) {
         mainActivity.runOnUiThread(() -> imageView.setImageResource(drawId));
 
-        int startY = 0;
+        int startY = -100;
         int endY = screenHeight;
 
         int startX = (int) (Math.random() * screenWidth);
         int endX = (int) (Math.random() * screenWidth);
+
+        ///CALCULATE ANGLES
+//        int missileWidth = imageView.getDrawable().getIntrinsicWidth();
 
 
         ObjectAnimator xAnim = ObjectAnimator.ofFloat(imageView, "x", startX, endX);
         xAnim.setInterpolator(new LinearInterpolator());
         xAnim.setDuration(screenTime);
 
+        ObjectAnimator yAnim = ObjectAnimator.ofFloat(imageView, "y", startY, endY);
+        yAnim.setInterpolator(new LinearInterpolator());
+        yAnim.setDuration(screenTime);
+
+
+        xAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+
+                float yVal = getY() ;
+//                System.out.println("yVal in Update is: " + yVal);
+
+                if(yVal > (screenHeight * 0.85)){
+                    makeGroundBlast(getX(), yVal);
+                }
+            }
+        });
+
         xAnim.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
+
                 mainActivity.runOnUiThread(() -> {
                     if (!hit) {
                         mainActivity.getLayout().removeView(imageView);
@@ -59,15 +82,41 @@ public class Missile {
             }
         });
 
-        ObjectAnimator yAnim = ObjectAnimator.ofFloat(imageView, "y", startY, endY);
-        yAnim.setInterpolator(new LinearInterpolator());
-        yAnim.setDuration(screenTime);
-
         aSet.playTogether(xAnim, yAnim);
         return aSet;
 
     }
 
+    void makeGroundBlast(float x, float y){
+
+        final ImageView iv = new ImageView(mainActivity);
+        iv.setImageResource(R.drawable.blast);
+        iv.setTransitionName("Missile Ground Blast");
+
+        int w = imageView.getDrawable().getIntrinsicWidth();
+        int offset = (int) (w * 0.5);
+
+        iv.setX(x - offset);
+        iv.setY(y - offset);
+        iv.setRotation((float) (360.0 * Math.random()));
+
+        aSet.cancel();
+
+        mainActivity.getLayout().removeView(imageView);
+        mainActivity.getLayout().addView(iv);
+
+        final ObjectAnimator alpha = ObjectAnimator.ofFloat(iv, "alpha", 0.0f);
+        alpha.setInterpolator(new LinearInterpolator());
+        alpha.setDuration(3000);
+        alpha.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                mainActivity.getLayout().removeView(imageView);
+            }
+
+        });
+        alpha.start();
+    }
 
 
     void stop(){ aSet.cancel();}
@@ -116,6 +165,7 @@ public class Missile {
             public void onAnimationEnd(Animator animation) {
                 mainActivity.getLayout().removeView(imageView);
             }
+
         });
         alpha.start();
     }
