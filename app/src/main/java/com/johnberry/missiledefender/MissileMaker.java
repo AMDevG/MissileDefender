@@ -122,4 +122,7 @@ public class MissileMaker implements Runnable {
             activeMissiles.remove(m);
         }
     }
+    public int getLevel(){
+        return level;
+    }
 }

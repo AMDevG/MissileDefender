@@ -184,5 +184,14 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("ENDING GAME IN MAIN ACTIVITY");
         missileMaker.setRunning(false);
         gameOverImg.setVisibility(View.VISIBLE);
+
+        int score = scoreValue;
+        int level = missileMaker.getLevel();
+
+        System.out.println("Final Score was: " + score + " Final level: " + level);
+
+
+        new Thread(new StudentDatabaseHandler(this, "JB", score, level)).start();
+
     }
 }
