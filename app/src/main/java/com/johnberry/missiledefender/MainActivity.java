@@ -48,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
         scoreBox = findViewById(R.id.scoreBoxText);
         levelBox = findViewById(R.id.levelTextView);
 
+//        scoreBox.setText(scoreValue);
+
 
 
         Base base1obj = new Base(base1);
@@ -127,12 +129,12 @@ public class MainActivity extends AppCompatActivity {
     public void applyInterceptorBlast(Interceptor interceptor) {
         missileMaker.applyInterceptorBlast(interceptor);
         interceptorBlast++;
-        double acc = (double) scoreValue / interceptorBlast;
+//        double acc = (double) scoreValue / interceptorBlast;
     }
+
     public void applyGroundBlast(Missile missile) {
         missileMaker.applyGroundBlast(missile);
-        interceptorBlast++;
-        double acc = (double) scoreValue / interceptorBlast;
+//        interceptorBlast++;
     }
 
     public void incrementScore() {

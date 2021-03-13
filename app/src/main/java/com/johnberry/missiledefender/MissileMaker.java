@@ -40,6 +40,7 @@ public class MissileMaker implements Runnable {
             int resId = pickMissile();
 
             long missileTime = (long) ((delay * 0.5) + (Math.random() * delay));
+
             final Missile missile = new Missile(screenWidth, screenHeight, missileTime, mainActivity);
             activeMissiles.add(missile);
             final AnimatorSet as = missile.setData(resId);
