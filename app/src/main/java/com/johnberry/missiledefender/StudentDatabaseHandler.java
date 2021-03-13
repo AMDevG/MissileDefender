@@ -22,6 +22,7 @@ public class StudentDatabaseHandler implements Runnable {
     private final int score, level;
     private final String initials;;
     private final long time;
+    private boolean isHighScore = false;
 
     StudentDatabaseHandler(MainActivity ctx, String initials, int score, int level) {
         context = ctx;
@@ -67,6 +68,8 @@ public class StudentDatabaseHandler implements Runnable {
     }
 
     private String getAll() throws SQLException {
+
+
         Statement stmt = conn.createStatement();
 
         String sql = "SELECT * from " + APP_SCORE_TABLE + " ORDER BY SCORE DESC";
@@ -79,6 +82,11 @@ public class StudentDatabaseHandler implements Runnable {
             long millis = rs.getLong(1);
             String initials = rs.getString(2);
             int score = rs.getInt(3);
+
+            if(this.score > score){
+                System.out.println("New High Score!!");
+                isHighScore = true;
+            }
             int level = rs.getInt(4);
 
             sb.append(initials + " " + score + " " + millis + " " + level);
@@ -90,7 +98,7 @@ public class StudentDatabaseHandler implements Runnable {
         return sb.toString();
     }
 
-    public boolean isHighScore(int score){
+    public boolean checkHighScore(int score){
         return false;
     }
 
