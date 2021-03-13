@@ -165,7 +165,9 @@ public class Missile {
                 base_destroyed = false;
 
                 if(bases.isEmpty()){
-                    System.out.println("All bases destroyed time to end!");
+                    mainActivity.runOnUiThread(() -> {
+                        mainActivity.endGame();
+                    });
                 }
             }
         }

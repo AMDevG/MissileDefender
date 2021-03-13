@@ -181,10 +181,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void endGame(){
-
-//        missileMaker.setRunning(false);
+        System.out.println("ENDING GAME IN MAIN ACTIVITY");
+        missileMaker.setRunning(false);
         gameOverImg.setVisibility(View.VISIBLE);
-
-
     }
 }
