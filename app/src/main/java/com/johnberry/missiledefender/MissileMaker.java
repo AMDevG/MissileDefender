@@ -35,6 +35,7 @@ public class MissileMaker implements Runnable {
         setRunning(true);
         while (isRunning) {
 
+
             planeCount++;
 //            System.out.println("PLane count is: " + planeCount);
             int resId = pickMissile();

@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     public static int screenHeight;
     public static int screenWidth;
     private int scoreValue;
-    private ImageView base1, base2, base3, launcher;
+    private ImageView base1, base2, base3, launcher, gameOverImg;
     private TextView scoreBox,levelBox;
     private double interceptorBlast;
 
@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         base3 = findViewById(R.id.baseThreeImg);
         scoreBox = findViewById(R.id.scoreBoxText);
         levelBox = findViewById(R.id.levelTextView);
+        gameOverImg = findViewById(R.id.gameOverImg);
 
         Base base1obj = new Base(base1);
         Base base2obj = new Base(base2);
@@ -177,5 +178,13 @@ public class MainActivity extends AppCompatActivity {
 
     public ArrayList<Base> getBaseList(){
         return baseList;
+    }
+
+    public void endGame(){
+
+//        missileMaker.setRunning(false);
+        gameOverImg.setVisibility(View.VISIBLE);
+
+
     }
 }

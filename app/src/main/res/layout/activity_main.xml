@@ -46,27 +46,39 @@
         android:layout_width="48dp"
         android:layout_height="43dp"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
         android:textAlignment="center"
         android:textColor="@color/teal_200"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/baseOneImg"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/levelTextView"
         android:layout_width="72dp"
         android:layout_height="46dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginEnd="6dp"
         android:layout_marginBottom="12dp"
         android:textAlignment="center"
         android:textColor="@color/teal_200"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/baseThreeImg" />
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageView
+        android:id="@+id/gameOverImg"
+        android:layout_width="500dp"
+        android:layout_height="106dp"
+        android:layout_marginStart="89dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="142dp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/game_over" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

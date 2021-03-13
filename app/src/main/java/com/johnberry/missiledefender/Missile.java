@@ -17,6 +17,7 @@ public class Missile {
     private final MainActivity mainActivity;
     private  ImageView imageView;
     private final AnimatorSet aSet = new AnimatorSet();
+    private ArrayList<Base> bases;
     private final int screenHeight;
     private final int screenWidth;
     private final long screenTime;
@@ -31,6 +32,8 @@ public class Missile {
         this.mainActivity = mainActivity;
 
         imageView = new ImageView(mainActivity);
+//        this.bases = mainActivity.getBaseList();
+
         mainActivity.runOnUiThread(() -> mainActivity.getLayout().addView(imageView));
 
         int startY = -100;
@@ -110,7 +113,7 @@ public class Missile {
 
     void groundBlast(float x, float y){
 
-        System.out.println("Baselist size: " + mainActivity.getBaseList().size());
+//        System.out.println("Baselist size: " + mainActivity.getBaseList().size());
 
         final ImageView iv = new ImageView(mainActivity);
         iv.setImageResource(R.drawable.explode);
@@ -131,21 +134,42 @@ public class Missile {
 
         ArrayList<Base> bases = mainActivity.getBaseList();
 
-        int LETHAL_PROXIMITY_RANGE = 150;
-        for(Base b : bases) {
-            float x_coord = (float) b.getBaseX();
-            int explosionRange = (int) Math.abs(x_coord - x);
+        int LETHAL_PROXIMITY_RANGE = 200;
 
-            if (explosionRange <= LETHAL_PROXIMITY_RANGE) {
-                System.out.println("BASE IS DESTROYED");
-                b.destroyBase();
-                ImageView baseImage = b.getBaseImg();
+        Base baseToRemove = null;
+        boolean base_destroyed = false;
 
-                mainActivity.runOnUiThread(() -> { mainActivity.getLayout().removeView(baseImage);});
-                bases.remove(b);
+
+        if(!bases.isEmpty()) {
+
+            for (Base b : bases) {
+                float x_coord = (float) b.getBaseX();
+                int explosionRange = (int) Math.abs(x_coord - x);
+
+                if (explosionRange <= LETHAL_PROXIMITY_RANGE) {
+                    System.out.println("BASE IS DESTROYED");
+                    base_destroyed = true;
+                    b.destroyBase();
+                    baseToRemove = b;
+                }
+            }
+
+            if(base_destroyed) {
+                Base finalBaseToRemove = baseToRemove;
+                mainActivity.runOnUiThread(() -> {
+                    mainActivity.getLayout().removeView(finalBaseToRemove.getBaseImg());
+                });
+
+                bases.remove(baseToRemove);
                 System.out.println("BASE REMOVED!");
+                base_destroyed = false;
+
+                if(bases.isEmpty()){
+                    System.out.println("All bases destroyed time to end!");
+                }
             }
         }
+
 
 //            mainActivity.runOnUiThread(() -> {
 //                mainActivity.getLayout().removeView(imageView);}
