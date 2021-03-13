@@ -14,12 +14,14 @@ import java.util.Random;
 public class Missile {
 
     private final MainActivity mainActivity;
-    private final ImageView imageView;
+    private  ImageView imageView;
     private final AnimatorSet aSet = new AnimatorSet();
     private final int screenHeight;
     private final int screenWidth;
     private final long screenTime;
     private final boolean hit = false;
+    private AnimatorSet animatorSet;
+    private ObjectAnimator xAnim, yAnim;
 
     Missile(int screenWidth, int screenHeight, long screenTime, final MainActivity mainActivity){
         this.screenWidth = screenWidth;
@@ -27,15 +29,8 @@ public class Missile {
         this.screenTime = screenTime;
         this.mainActivity = mainActivity;
 
-
         imageView = new ImageView(mainActivity);
-        imageView.setX(-500);
-
         mainActivity.runOnUiThread(() -> mainActivity.getLayout().addView(imageView));
-    }
-
-    AnimatorSet setData(final int drawId) {
-        mainActivity.runOnUiThread(() -> imageView.setImageResource(drawId));
 
         int startY = -100;
         int endY = screenHeight;
@@ -43,13 +38,37 @@ public class Missile {
         int startX = (int) (Math.random() * screenWidth);
         int endX = (int) (Math.random() * screenWidth);
 
-        ObjectAnimator xAnim = ObjectAnimator.ofFloat(imageView, "x", startX, endX);
+//        final int imageWidth = (int) (imageView.getDrawable().getIntrinsicWidth() * 0.5);
+//        final int imageHeight = (int) (imageView.getDrawable().getIntrinsicHeight() * 0.5);
+
+//        startX -= imageWidth;
+//        startY -= imageHeight;
+
+        float angle = MainActivity.calculateAngle(
+                startX, startY, endX, endY);
+
+        imageView.setRotation(angle);
+
+        imageView.setX(startX);
+        imageView.setY(startY);
+        imageView.setZ(-10);
+
+
+         xAnim = ObjectAnimator.ofFloat(imageView, "x", startX, endX);
         xAnim.setInterpolator(new LinearInterpolator());
         xAnim.setDuration(screenTime);
 
-        ObjectAnimator yAnim = ObjectAnimator.ofFloat(imageView, "y", startY, endY);
+         yAnim = ObjectAnimator.ofFloat(imageView, "y", startY, endY);
         yAnim.setInterpolator(new LinearInterpolator());
         yAnim.setDuration(screenTime);
+
+    }
+
+
+
+    AnimatorSet setData(final int drawId) {
+
+        mainActivity.runOnUiThread(() -> imageView.setImageResource(drawId));
 
 
         xAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -95,7 +114,7 @@ public class Missile {
         iv.setImageResource(R.drawable.blast);
         iv.setTransitionName("Missile Ground Blast");
 
-        int w = imageView.getDrawable().getIntrinsicWidth();
+        int w = iv.getDrawable().getIntrinsicWidth();
         int offset = (int) (w * 0.5);
 
         iv.setX(x - offset);
@@ -109,7 +128,7 @@ public class Missile {
 
         final ObjectAnimator alpha = ObjectAnimator.ofFloat(iv, "alpha", 0.0f);
         alpha.setInterpolator(new LinearInterpolator());
-        alpha.setDuration(2000);
+        alpha.setDuration(1000);
 
         alpha.addListener(new AnimatorListenerAdapter() {
             @Override
@@ -119,7 +138,7 @@ public class Missile {
 
         });
         alpha.start();
-        mainActivity.removeMissile(this);
+//        mainActivity.removeMissile(this);
     }
 
 
