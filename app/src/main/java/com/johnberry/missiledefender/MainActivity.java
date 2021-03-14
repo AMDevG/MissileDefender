@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView scoreBox,levelBox;
     private double interceptorBlast;
     private boolean hasHighScore = false;
+    private int scoreToBeat;
 
     private MissileMaker missileMaker;
 
@@ -72,6 +73,8 @@ public class MainActivity extends AppCompatActivity {
             }
             return false;
         });
+
+        new Thread(new StudentDatabaseHandler(this)).start();
 
         new ScrollingBackground(this,
                 layout, R.drawable.clouds, 10000);
@@ -190,15 +193,21 @@ public class MainActivity extends AppCompatActivity {
         int score = scoreValue;
         int level = missileMaker.getLevel();
 
-        System.out.println("Final Score was: " + score + " Final level: " + level);
+        System.out.println("Final Score was: " + score + " Final level: " + level + " Min Score: " + scoreToBeat);
 
-        new Thread(new StudentDatabaseHandler(this, score, level, hasHighScore)).start();
-        System.out.println("Called handler thread from main");
+
+        if(score > scoreToBeat){
+            System.out.println("Made it to leaderboard enter initials here");
+
+            // CALL TO UPDATE
+        }
+        else{
+            showLeaderBoard();
+        }
 
     }
 
     public static void highScores(JSONArray highScoresIn) throws JSONException {
-
         for(int i = 0; i < highScoresIn.length(); i++){
             JSONArray record = highScoresIn.getJSONArray(i);
             for(int j = 0; j < record.length(); j++) {
@@ -207,11 +216,32 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void promptInitials(){
-        hasHighScore = true;
-        System.out.println("High scored registered; Calling Prompt in Main");
+//    public void setHasHighScore(boolean scoreFlag) throws SQLException, JSONException, ClassNotFoundException {
+//        hasHighScore = scoreFlag;
+//        if(hasHighScore){
+//            System.out.println("High score registered calling updateLeaderboard!");
+//            updateLeaderBoard();
+//            }
+//        else{
+//            showLeaderBoard();
+//        }
+//    }
 
+    private void updateLeaderBoard() throws SQLException, JSONException, ClassNotFoundException {
+        //GET INITIALS HERE
+        String initials = "CB";
+        int level = missileMaker.getLevel();
+
+        UpdateTableRunnable updateTableRunnable = new UpdateTableRunnable(this, scoreValue, level, initials);
+        new Thread(updateTableRunnable).start();
         }
 
+    private void showLeaderBoard(){
+        System.out.println("No update; Show leaderboard here");
+    }
 
+    public void setScoreToBeat(int score){
+        scoreToBeat = score;
+        System.out.println("Retrieved lowest high score: " + scoreToBeat);
+    }
     }
