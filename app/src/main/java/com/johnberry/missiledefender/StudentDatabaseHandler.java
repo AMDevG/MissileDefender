@@ -17,7 +17,6 @@ public class StudentDatabaseHandler implements Runnable {
 
     private static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
 
-
     private final MainActivity context;
     private static String dbURL;
     private static Connection conn;
@@ -48,10 +47,10 @@ public class StudentDatabaseHandler implements Runnable {
             Class.forName(JDBC_DRIVER);
             conn = DriverManager.getConnection(dbURL, "chri5558_student", "ABC.123");
 
-            String topScores = getAll();
 
-            if(isHighScore) {
+            if(checkScore()) {
 
+                System.out.println("High Score; Inserting into DB");
                 StringBuilder sb = new StringBuilder();
 
                 Statement stmt = conn.createStatement();
@@ -70,16 +69,17 @@ public class StudentDatabaseHandler implements Runnable {
                 sb.append(response);
 
             }
-
             conn.close();
 
+            createScoreList();
+            MainActivity.highScores(highScores);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private String getAll() throws SQLException {
+    private boolean checkScore() throws SQLException {
 
 
         Statement stmt = conn.createStatement();
@@ -91,26 +91,24 @@ public class StudentDatabaseHandler implements Runnable {
         ResultSet rs = stmt.executeQuery(sql);
 
         while (rs.next()) {
-            long millis = rs.getLong(1);
-            String initials = rs.getString(2);
+//            long millis = rs.getLong(1);
+//            String initials = rs.getString(2);
             int score = rs.getInt(3);
 
             if(this.score > score){
-                System.out.println("New High Score!!");
+//                System.out.println("New High Score!!");
                 isHighScore = true;
             }
-            int level = rs.getInt(4);
 
-            sb.append(initials + " " + score + " " + millis + " " + level);
         }
 
         rs.close();
         stmt.close();
 
-        return sb.toString();
+        return isHighScore;
     }
 
-    public static JSONArray getScoreList() throws SQLException, JSONException, ClassNotFoundException {
+    public void createScoreList() throws SQLException, JSONException, ClassNotFoundException {
 
         Class.forName(JDBC_DRIVER);
         conn = DriverManager.getConnection(dbURL, "chri5558_student", "ABC.123");
@@ -149,11 +147,10 @@ public class StudentDatabaseHandler implements Runnable {
             highScores.put(recordArr);
         }
 
-        return highScores;
     }
 
-    public boolean checkHighScore(int score){
-        return false;
+    public static JSONArray getScoreList(){
+        return highScores;
     }
 
 

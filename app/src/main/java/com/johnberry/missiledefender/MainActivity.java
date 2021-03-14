@@ -197,9 +197,21 @@ public class MainActivity extends AppCompatActivity {
 
         new Thread(new StudentDatabaseHandler(this, "JB", score, level)).start();
 
-        JSONArray highScores = StudentDatabaseHandler.getScoreList();
+//        JSONArray highScores = StudentDatabaseHandler.getScoreList();
 
-        System.out.println("Retrieved highscore size: " + highScores.length());
+//        System.out.println("Retrieved highscore size: " + highScores.length());
 
+    }
+
+    public static void highScores(JSONArray highScoresIn) throws JSONException {
+
+        System.out.println("Main Activity received arr of size: " + highScoresIn.length());
+
+        for(int i = 0; i < highScoresIn.length(); i++){
+            JSONArray record = highScoresIn.getJSONArray(i);
+            for(int j = 0; j < record.length(); j++) {
+                System.out.println("Record #" + i + " " + record.getString(j));
+            }
+        }
     }
 }
