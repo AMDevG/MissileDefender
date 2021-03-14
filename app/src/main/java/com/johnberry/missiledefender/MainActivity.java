@@ -143,6 +143,7 @@ public class MainActivity extends AppCompatActivity implements DialogAPI.DialogL
         SoundPlayer.setupSound(this, "launch_interceptor", R.raw.launch_interceptor);
         SoundPlayer.setupSound(this, "launch_missile", R.raw.launch_missile);
         SoundPlayer.setupSound(this, "missile_miss", R.raw.missile_miss);
+        SoundPlayer.setupSound(this, "background", R.raw.background);
     }
 
     public ConstraintLayout getLayout() {

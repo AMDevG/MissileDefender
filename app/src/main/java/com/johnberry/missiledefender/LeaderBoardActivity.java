@@ -7,14 +7,18 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.Date;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class LeaderBoardActivity extends AppCompatActivity {
 
@@ -22,6 +26,7 @@ public class LeaderBoardActivity extends AppCompatActivity {
     String initials;
     String level, score;
     private static TextView scorer1, scorer2, scorer3, scorer4, scorer5, scorer6, scorer7, scorer8, scorer9, scorer10;
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("MM/dd HH:mm", Locale.getDefault());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +46,19 @@ public class LeaderBoardActivity extends AppCompatActivity {
         scorer8 = findViewById(R.id.scorer8);
         scorer9 = findViewById(R.id.scorer9);
         scorer10 = findViewById(R.id.scorer10);
+
+        SoundPlayer.start("background");
+
+
+        Button exitButton = findViewById(R.id.exitButton);
+
+        exitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view){
+                finish();
+                System.exit(0);
+            }
+        });
 
 
         Intent i = getIntent();
@@ -92,12 +110,15 @@ public class LeaderBoardActivity extends AppCompatActivity {
             String scoreString = jsonScore.getString("score");
             String levelString = jsonLevel.getString("level");
 
+            Long millisLong = Long.parseLong(millisString);
+
+
             // Set initials with empty values
             if(initsString.length() < 1){
                 initsString = "XXX";
             }
 
-            String playerRecord = initsString + "       |       " + scoreString + "       |       " + levelString;
+            String playerRecord = initsString + "       |       " + scoreString + "       |       " + levelString +  "       |       " + sdf.format(new Date(millisLong));
             System.out.println("Player Record #"+i +"  " + playerRecord);
             highScoreArr.add(playerRecord);
         }
@@ -153,4 +174,5 @@ public class LeaderBoardActivity extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_FULLSCREEN
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
     }
+
 }

@@ -36,6 +36,7 @@ public class Missile {
 
         mainActivity.runOnUiThread(() -> mainActivity.getLayout().addView(imageView));
 
+        SoundPlayer.start("launch_missile");
         int startY = -100;
         int endY = screenHeight;
 
@@ -143,6 +144,7 @@ public class Missile {
 
             if(base_destroyed) {
                 Base finalBaseToRemove = baseToRemove;
+                SoundPlayer.start("base_blast");
                 mainActivity.runOnUiThread(() -> {
                     mainActivity.getLayout().removeView(finalBaseToRemove.getBaseImg());
                 });

@@ -37,6 +37,7 @@ public class MissileMaker implements Runnable {
 
             planeCount++;
             int resId = pickMissile();
+            SoundPlayer.start("launch_missile");
             long missileTime = (long) ((delay * 0.5) + (Math.random() * delay));
 
             final Missile missile = new Missile(screenWidth, screenHeight, missileTime, mainActivity);
@@ -108,12 +109,11 @@ public class MissileMaker implements Runnable {
 
         ArrayList<Missile> nowGone = new ArrayList<>();
         ArrayList<Missile> temp = new ArrayList<>(activeMissiles);
-
+        SoundPlayer.start("base_blast");
         for (Missile m : temp) {
             float planeX = (int) (m.getX() + (0.5 * m.getWidth()));
             float planeY = (int) (m.getY() + (0.5 * m.getHeight()));
 
-            SoundPlayer.start("base_blast");
             m.groundBlast(planeX, planeY);
             nowGone.add(m);
         }
