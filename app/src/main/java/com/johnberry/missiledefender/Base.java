@@ -30,5 +30,4 @@ public class Base {
         return baseImg;
     }
 
-    public boolean getBaseStatus(){ return isDestroyed; }
 }

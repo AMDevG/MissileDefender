@@ -140,15 +140,7 @@ public class MissileMaker implements Runnable {
 
                 if(bases.isEmpty()){
                     mainActivity.runOnUiThread(() -> {
-                        try {
-                            mainActivity.endGame();
-                        } catch (SQLException throwables) {
-                            throwables.printStackTrace();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        } catch (ClassNotFoundException e) {
-                            e.printStackTrace();
-                        }
+                        mainActivity.endGame();
                     });
                 }
                 base_destroyed = false;

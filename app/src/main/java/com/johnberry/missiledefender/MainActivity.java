@@ -195,7 +195,7 @@ public class MainActivity extends AppCompatActivity implements DialogAPI.DialogL
         return baseList;
     }
 
-    public void endGame() throws SQLException, JSONException, ClassNotFoundException {
+    public void endGame(){
         missileMaker.setRunning(false);
 
         gameOverImg.setVisibility(View.VISIBLE);
@@ -206,13 +206,14 @@ public class MainActivity extends AppCompatActivity implements DialogAPI.DialogL
         int level = missileMaker.getLevel();
 
         new Handler().postDelayed(() -> {
+            gameOverImg.setVisibility(View.INVISIBLE);
             if(finalScore > scoreToBeat){
                 openDialog();
             }
             else{
                 showLeaderBoard();
             }
-        }, 3000);
+        }, 2000);
 
     }
 

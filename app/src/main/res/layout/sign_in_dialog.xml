@@ -7,9 +7,9 @@
     android:orientation="horizontal"
     android:padding="12dp">
 
-
     <EditText
         android:id="@+id/initialsText"
+        android:maxLength="3"
         android:layout_width="697dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="4dp"
