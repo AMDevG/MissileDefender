@@ -2,6 +2,9 @@ package com.johnberry.missiledefender;
 
 import android.animation.AnimatorSet;
 
+import org.json.JSONException;
+
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class MissileMaker implements Runnable {
@@ -10,11 +13,11 @@ public class MissileMaker implements Runnable {
     private final ArrayList<Missile> activeMissiles = new ArrayList<>();
     private final int screenWidth;
     private final int screenHeight;
-    private int planeCount = 0; // Current plane count for each level
-    private static int LEVEL_CHANGE_VALUE = 5; // Change level after this many planes
+    private int planeCount = 0;
+    private static int LEVEL_CHANGE_VALUE = 5;
     private static final int INTERCEPTOR_BLAST_RANGE = 150;
     private int level = 1;
-    private long delay = 4000; // Pause between new planes
+    private long delay = 4000; // Pause between new missiles
 
     MissileMaker(MainActivity mainActivity, int screenWidth, int screenHeight) {
         this.mainActivity = mainActivity;
@@ -56,9 +59,9 @@ public class MissileMaker implements Runnable {
                 level++;
                 mainActivity.setLevel(level);
 
-                delay -= 200; // Reduce the delay between planes
+                delay -= 200;
 
-                if (delay < 400) // But don't let the delay go down to 0
+                if (delay < 400)
                     delay = 400;
 
                 planeCount = 0;
@@ -87,6 +90,8 @@ public class MissileMaker implements Runnable {
         ArrayList<Missile> nowGone = new ArrayList<>();
         ArrayList<Missile> temp = new ArrayList<>(activeMissiles);
 
+        ArrayList<Base> bases = mainActivity.getBaseList();
+
         for (Missile m : temp) {
             float planeX = (int) (m.getX() + (0.5 * m.getWidth()));
             float planeY = (int) (m.getY() + (0.5 * m.getHeight()));
@@ -100,9 +105,54 @@ public class MissileMaker implements Runnable {
             }
         }
 
+
         for (Missile m : nowGone) {
             activeMissiles.remove(m);
         }
+
+        Base baseToRemove = null;
+        boolean base_destroyed = false;
+
+        if(!bases.isEmpty()) {
+            for (Base b : bases) {
+                float base_x = (float) b.getBaseX();
+                float base_y = (float) b.getBaseY();
+                float distanceBetween = (float) Math.sqrt((base_y - interceptorY) * (base_y - interceptorY) + (base_x - interceptorX) * (base_x - interceptorX));
+
+                if (distanceBetween <= INTERCEPTOR_BLAST_RANGE) {
+                    System.out.println("Interceptor Hit base!");
+                    base_destroyed = true;
+                    b.destroyBase();
+                    baseToRemove = b;
+                }
+            }
+
+            if(base_destroyed) {
+                Base finalBaseToRemove = baseToRemove;
+                SoundPlayer.start("base_blast");
+                mainActivity.runOnUiThread(() -> {
+                    mainActivity.getLayout().removeView(finalBaseToRemove.getBaseImg());
+                });
+
+                bases.remove(baseToRemove);
+
+                if(bases.isEmpty()){
+                    mainActivity.runOnUiThread(() -> {
+                        try {
+                            mainActivity.endGame();
+                        } catch (SQLException throwables) {
+                            throwables.printStackTrace();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        } catch (ClassNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                    });
+                }
+                base_destroyed = false;
+            }
+        }
+
     }
 
     void applyGroundBlast(Missile missile) {

@@ -12,7 +12,6 @@ import android.widget.LinearLayout;
 import static com.johnberry.missiledefender.MainActivity.screenHeight;
 import static com.johnberry.missiledefender.MainActivity.screenWidth;
 
-
 class ScrollingBackground {
 
     private final Context context;
@@ -91,5 +90,4 @@ class ScrollingBackground {
         }
         return 0;
     }
-
 }

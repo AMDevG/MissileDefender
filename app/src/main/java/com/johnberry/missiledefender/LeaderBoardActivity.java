@@ -32,9 +32,10 @@ public class LeaderBoardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_leaderboard);
-
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
         setupFullScreen();
+        SoundPlayer.start("background");
 
         scorer1 = findViewById(R.id.scorer1);
         scorer2 = findViewById(R.id.scorer2);
@@ -47,11 +48,7 @@ public class LeaderBoardActivity extends AppCompatActivity {
         scorer9 = findViewById(R.id.scorer9);
         scorer10 = findViewById(R.id.scorer10);
 
-        SoundPlayer.start("background");
-
-
         Button exitButton = findViewById(R.id.exitButton);
-
         exitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view){
@@ -60,9 +57,7 @@ public class LeaderBoardActivity extends AppCompatActivity {
             }
         });
 
-
         Intent i = getIntent();
-
         if(i.hasExtra("initials")) {
             initials = i.getStringExtra("initials");
             level = i.getStringExtra("level");
@@ -95,7 +90,6 @@ public class LeaderBoardActivity extends AppCompatActivity {
             }
             new Thread(getLeaderRunnable).start();
         }
-
     }
 
     public static void highScores(JSONArray highScoresIn) throws JSONException {
@@ -114,17 +108,14 @@ public class LeaderBoardActivity extends AppCompatActivity {
 
             Long millisLong = Long.parseLong(millisString);
 
-
             // Set initials with empty values
             if(initsString.length() < 1){
                 initsString = "XXX";
             }
 
             String playerRecord = initsString + "       |       " + scoreString + "       |       " + levelString +  "       |       " + sdf.format(new Date(millisLong));
-            System.out.println("Player Record #"+i +"  " + playerRecord);
             highScoreArr.add(playerRecord);
         }
-        System.out.println("Retrieved HighScore Array. Update UI Here");
         updateLeaderBoard(highScoreArr);
     }
 
@@ -176,5 +167,4 @@ public class LeaderBoardActivity extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_FULLSCREEN
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
     }
-
 }

@@ -196,7 +196,6 @@ public class MainActivity extends AppCompatActivity implements DialogAPI.DialogL
         int level = missileMaker.getLevel();
 
         if(finalScore > scoreToBeat){
-            System.out.println("Made it to leaderboard enter initials here");
             openDialog();
         }
         else{
@@ -224,8 +223,7 @@ public class MainActivity extends AppCompatActivity implements DialogAPI.DialogL
     }
 
 
-    private void showLeaderBoard() throws SQLException, JSONException, ClassNotFoundException {
-        System.out.println("No update; Show leaderboard here");
+    private void showLeaderBoard(){
         Intent intent = new Intent(this, LeaderBoardActivity.class);
         startActivity(intent);
         finish();
@@ -233,6 +231,5 @@ public class MainActivity extends AppCompatActivity implements DialogAPI.DialogL
 
     public void setScoreToBeat(int score){
         scoreToBeat = score;
-        System.out.println("Retrieved lowest high score: " + scoreToBeat);
     }
 }
