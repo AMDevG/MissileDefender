@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView base1, base2, base3, launcher, gameOverImg;
     private TextView scoreBox,levelBox;
     private double interceptorBlast;
+    private boolean hasHighScore = false;
 
     private MissileMaker missileMaker;
 
@@ -109,9 +110,6 @@ public class MainActivity extends AppCompatActivity {
             Interceptor i = new Interceptor(this, (float) (startX - 10), (float) (startY - 30), xLoc, yLoc);
             SoundPlayer.start("launch_interceptor");
             i.launch();
-        }
-        else{
-            System.out.println("GAME OVER!!!");
         }
     }
 
@@ -194,18 +192,12 @@ public class MainActivity extends AppCompatActivity {
 
         System.out.println("Final Score was: " + score + " Final level: " + level);
 
-
-        new Thread(new StudentDatabaseHandler(this, "JB", score, level)).start();
-
-//        JSONArray highScores = StudentDatabaseHandler.getScoreList();
-
-//        System.out.println("Retrieved highscore size: " + highScores.length());
+        new Thread(new StudentDatabaseHandler(this, score, level, hasHighScore)).start();
+        System.out.println("Called handler thread from main");
 
     }
 
     public static void highScores(JSONArray highScoresIn) throws JSONException {
-
-        System.out.println("Main Activity received arr of size: " + highScoresIn.length());
 
         for(int i = 0; i < highScoresIn.length(); i++){
             JSONArray record = highScoresIn.getJSONArray(i);
@@ -214,4 +206,12 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-}
+
+    public void promptInitials(){
+        hasHighScore = true;
+        System.out.println("High scored registered; Calling Prompt in Main");
+
+        }
+
+
+    }
