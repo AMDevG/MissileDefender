@@ -16,7 +16,7 @@ public class GetLeaderRunnable implements Runnable{
 
     private static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
 
-    private final MainActivity mainActivity;
+    private final LeaderBoardActivity leaderBoardActivity;
     private static String dbURL;
     private static Connection conn;
     private static final String APP_SCORE_TABLE = "AppScores";
@@ -24,8 +24,8 @@ public class GetLeaderRunnable implements Runnable{
     private static JSONArray highScores = new JSONArray();
 
 
-    GetLeaderRunnable(MainActivity mainActivity) throws SQLException, JSONException, ClassNotFoundException {
-        this.mainActivity = mainActivity;
+    GetLeaderRunnable(LeaderBoardActivity leaderBoardActivity) throws SQLException, JSONException, ClassNotFoundException {
+        this.leaderBoardActivity = leaderBoardActivity;
         dbURL = "jdbc:mysql://christopherhield.com:3306/chri5558_missile_defense";
 
     }
@@ -33,9 +33,9 @@ public class GetLeaderRunnable implements Runnable{
     public void run() {
         try {
             createScoreList();
-            mainActivity.runOnUiThread(() -> {
+            leaderBoardActivity.runOnUiThread(() -> {
                 try {
-                    mainActivity.highScores(highScores);
+                    leaderBoardActivity.highScores(highScores);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

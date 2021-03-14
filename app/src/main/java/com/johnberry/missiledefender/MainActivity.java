@@ -6,6 +6,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -47,7 +48,6 @@ public class MainActivity extends AppCompatActivity implements DialogAPI.DialogL
         setContentView(R.layout.activity_main);
         new Thread(new StudentDatabaseHandler(this )).start();
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-
 
         setupFullScreen();
         getScreenDimensions();
@@ -215,31 +215,19 @@ public class MainActivity extends AppCompatActivity implements DialogAPI.DialogL
     @Override
     public void applyTexts(String userInitials) throws SQLException, JSONException, ClassNotFoundException {
         initials = userInitials;
-        System.out.println("Got initials from dialog: " + initials);
-        updateLeaderBoard(initials);
-    }
-
-
-    public static void highScores(JSONArray highScoresIn) throws JSONException {
-        for(int i = 0; i < highScoresIn.length(); i++){
-            JSONArray record = highScoresIn.getJSONArray(i);
-            for(int j = 0; j < record.length(); j++) {
-                System.out.println("Record #" + i + " " + record.getString(j));
-            }
-        }
-    }
-
-    private void updateLeaderBoard(String initials) throws SQLException, JSONException, ClassNotFoundException {
         int level = missileMaker.getLevel();
-        UpdateTableRunnable updateTableRunnable = new UpdateTableRunnable(this, scoreValue, level, initials);
-        new Thread(updateTableRunnable).start();
-        }
+        Intent intent = new Intent(this, LeaderBoardActivity.class);
+        intent.putExtra("initials", initials);
+        intent.putExtra("level", level);
+        intent.putExtra("score", scoreValue);
+        startActivity(intent);
+    }
+
 
     private void showLeaderBoard() throws SQLException, JSONException, ClassNotFoundException {
         System.out.println("No update; Show leaderboard here");
-        GetLeaderRunnable getLeaderRunnable = new GetLeaderRunnable(this);
-        new Thread(getLeaderRunnable).start();
-
+        Intent intent = new Intent(this, LeaderBoardActivity.class);
+        startActivity(intent);
     }
 
     public void setScoreToBeat(int score){

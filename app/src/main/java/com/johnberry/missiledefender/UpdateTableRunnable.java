@@ -16,7 +16,7 @@ public class UpdateTableRunnable implements Runnable{
 
     private static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
 
-    private final MainActivity mainActivity;
+    private final LeaderBoardActivity leaderBoardActivity;
     private static String dbURL;
     private static Connection conn;
     private static final String APP_SCORE_TABLE = "AppScores";
@@ -29,11 +29,11 @@ public class UpdateTableRunnable implements Runnable{
 
     private static JSONArray highScores = new JSONArray();
 
-    UpdateTableRunnable(MainActivity mainActivity, int score, int level, String initials) throws SQLException, JSONException, ClassNotFoundException {
-        this.mainActivity = mainActivity;
+    UpdateTableRunnable(LeaderBoardActivity leaderBoardActivity, String score, String level, String initials) throws SQLException, JSONException, ClassNotFoundException {
+        this.leaderBoardActivity = leaderBoardActivity;
         this.time = System.currentTimeMillis();
-        this.score = score;
-        this.level = level;
+        this.score = Integer.parseInt(score);
+        this.level = Integer.parseInt(level);
         this.initials = initials;
         dbURL = "jdbc:mysql://christopherhield.com:3306/chri5558_missile_defense";
 
@@ -65,9 +65,9 @@ public class UpdateTableRunnable implements Runnable{
 
         createScoreList();
 
-        mainActivity.runOnUiThread(() -> {
+        leaderBoardActivity.runOnUiThread(() -> {
             try {
-                mainActivity.highScores(highScores);
+                leaderBoardActivity.highScores(highScores);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
