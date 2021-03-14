@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements DialogAPI.DialogL
     private boolean hasHighScore = false;
     private int scoreToBeat;
     private String initials;
+    int finalScore;
 
     private MissileMaker missileMaker;
 
@@ -188,24 +189,19 @@ public class MainActivity extends AppCompatActivity implements DialogAPI.DialogL
     }
 
     public void endGame() throws SQLException, JSONException, ClassNotFoundException {
-        System.out.println("ENDING GAME IN MAIN ACTIVITY");
         missileMaker.setRunning(false);
         gameOverImg.setVisibility(View.VISIBLE);
 
-        int score = scoreValue;
+        finalScore = scoreValue;
         int level = missileMaker.getLevel();
 
-        System.out.println("Final Score was: " + score + " Final level: " + level + " Min Score: " + scoreToBeat);
-
-
-        if(score > scoreToBeat){
+        if(finalScore > scoreToBeat){
             System.out.println("Made it to leaderboard enter initials here");
             openDialog();
         }
         else{
             showLeaderBoard();
         }
-
     }
 
     public void openDialog(){
@@ -216,11 +212,13 @@ public class MainActivity extends AppCompatActivity implements DialogAPI.DialogL
     @Override
     public void applyTexts(String userInitials) throws SQLException, JSONException, ClassNotFoundException {
         initials = userInitials;
-        int level = missileMaker.getLevel();
+        String level = String.valueOf(missileMaker.getLevel());
+        String score = String.valueOf(finalScore);
+
         Intent intent = new Intent(this, LeaderBoardActivity.class);
         intent.putExtra("initials", initials);
         intent.putExtra("level", level);
-        intent.putExtra("score", scoreValue);
+        intent.putExtra("score", score);
         startActivity(intent);
     }
 

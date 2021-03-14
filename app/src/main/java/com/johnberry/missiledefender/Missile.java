@@ -43,8 +43,6 @@ public class Missile {
         int startX = (int) (Math.random() * screenWidth);
         int endX = (int) (Math.random() * screenWidth);
 
-//        final int imageWidth = (int) (imageView.getDrawable().getIntrinsicWidth() * 0.5);
-//        final int imageHeight = (int) (imageView.getDrawable().getIntrinsicHeight() * 0.5);
         int imageWidth = (int) getWidth();
         startX -= imageWidth;
         startY -= imageWidth;

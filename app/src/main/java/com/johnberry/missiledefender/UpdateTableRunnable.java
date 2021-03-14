@@ -49,6 +49,8 @@ public class UpdateTableRunnable implements Runnable{
     }
 
     private void updateHighScore() throws SQLException, JSONException, ClassNotFoundException {
+        Class.forName(JDBC_DRIVER);
+        conn = DriverManager.getConnection(dbURL, "chri5558_student", "ABC.123");
 
         System.out.println("In UPDATE TABLE RUNNER");
 
@@ -62,6 +64,8 @@ public class UpdateTableRunnable implements Runnable{
         stmt.executeUpdate(sql);
         stmt.close();
         conn.close();
+
+        System.out.println("Updated DB!");
 
         createScoreList();
 

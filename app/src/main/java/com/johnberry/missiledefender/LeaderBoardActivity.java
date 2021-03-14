@@ -62,10 +62,12 @@ public class LeaderBoardActivity extends AppCompatActivity {
 
 
         Intent i = getIntent();
+
         if(i.hasExtra("initials")) {
             initials = i.getStringExtra("initials");
             level = i.getStringExtra("level");
             score = i.getStringExtra("score");
+            System.out.println("Retrieved intent score of: " + score);
 
             UpdateTableRunnable updateTableRunnable = null;
             try {

@@ -27,7 +27,6 @@ public class GetLeaderRunnable implements Runnable{
     GetLeaderRunnable(LeaderBoardActivity leaderBoardActivity) throws SQLException, JSONException, ClassNotFoundException {
         this.leaderBoardActivity = leaderBoardActivity;
         dbURL = "jdbc:mysql://christopherhield.com:3306/chri5558_missile_defense";
-
     }
 
     public void run() {
