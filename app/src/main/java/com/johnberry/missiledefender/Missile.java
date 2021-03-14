@@ -108,20 +108,7 @@ public class Missile {
     }
 
     void groundBlast(float x, float y){
-
         final ImageView iv = new ImageView(mainActivity);
-        iv.setImageResource(R.drawable.explode);
-        iv.setTransitionName("Missile Ground Blast");
-
-        int w = iv.getDrawable().getIntrinsicWidth();
-        int offset = (int) (w * 0.5);
-
-        iv.setX(x - offset);
-        iv.setY(y - offset);
-        iv.setZ(-15);
-
-        aSet.cancel();
-        mainActivity.getLayout().addView(iv);
 
         ArrayList<Base> bases = mainActivity.getBaseList();
         int LETHAL_PROXIMITY_RANGE = 200;
@@ -141,6 +128,8 @@ public class Missile {
             }
 
             if(base_destroyed) {
+                iv.setImageResource(R.drawable.blast);
+
                 Base finalBaseToRemove = baseToRemove;
                 SoundPlayer.start("base_blast");
                 mainActivity.runOnUiThread(() -> {
@@ -165,7 +154,23 @@ public class Missile {
                 }
                 base_destroyed = false;
             }
+            else{
+                iv.setImageResource(R.drawable.explode);
+            }
         }
+
+        iv.setTransitionName("Missile Ground Blast");
+
+        int w = iv.getDrawable().getIntrinsicWidth();
+        int offset = (int) (w * 0.5);
+
+        iv.setX(x - offset);
+        iv.setY(y - offset);
+        iv.setZ(-15);
+
+        aSet.cancel();
+        mainActivity.getLayout().addView(iv);
+
 
         final ObjectAnimator alpha = ObjectAnimator.ofFloat(iv, "alpha", 0.0f);
         alpha.setInterpolator(new LinearInterpolator());

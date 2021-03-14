@@ -92,8 +92,6 @@ public class MainActivity extends AppCompatActivity implements DialogAPI.DialogL
 
     public void handleTouch(float xLoc, float yLoc) {
 
-        System.out.println("handleTouch: Interceptors in Air: " + INTERCEPTORS_IN_AIR);
-
         if(INTERCEPTORS_IN_AIR < 3) {
             Base closestBase = null;
             float shortestDistance = 0;
