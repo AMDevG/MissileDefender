@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
+        new Thread(new StudentDatabaseHandler(this)).start();
         setupFullScreen();
         getScreenDimensions();
         setupSounds();
@@ -73,8 +74,6 @@ public class MainActivity extends AppCompatActivity {
             }
             return false;
         });
-
-        new Thread(new StudentDatabaseHandler(this)).start();
 
         new ScrollingBackground(this,
                 layout, R.drawable.clouds, 10000);
