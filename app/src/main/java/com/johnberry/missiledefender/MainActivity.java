@@ -195,6 +195,7 @@ public class MainActivity extends AppCompatActivity implements DialogAPI.DialogL
         finalScore = scoreValue;
         int level = missileMaker.getLevel();
 
+
         if(finalScore > scoreToBeat){
             openDialog();
         }

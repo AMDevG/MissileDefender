@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -21,6 +22,9 @@ class ScrollingBackground {
 
     private final long duration;
     private final int resId;
+    private final float alphaIncrementUp = 0.001f;
+    private final float alphaIncrementDown = -0.001f;
+    private boolean incrementUp = true;
 
     ScrollingBackground(Context context, ViewGroup layout, int resId, long duration) {
         this.context = context;
@@ -33,8 +37,9 @@ class ScrollingBackground {
     private void setupBackground() {
         backImageA = new ImageView(context);
         backImageB = new ImageView(context);
-        backImageA.setAlpha(0.4f);
-        backImageB.setAlpha(0.4f);
+
+        backImageA.setAlpha(0.25f);
+        backImageB.setAlpha(0.25f);
 
         LinearLayout.LayoutParams params = new LinearLayout
                 .LayoutParams(screenWidth + getBarHeight(), screenHeight);
@@ -67,6 +72,7 @@ class ScrollingBackground {
         animator.setInterpolator(new LinearInterpolator());
         animator.setDuration(duration);
 
+
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -75,6 +81,29 @@ class ScrollingBackground {
 
                 float a_translationX = width * progress;
                 float b_translationX = width * progress - width;
+
+                float currAlpha = backImageA.getAlpha();
+                float newAlpha = 0;
+
+                if(currAlpha >= 0.95f){
+                    incrementUp = false;
+                    System.out.println("Alpha hit upper limit!");
+                }
+                else if(currAlpha <= 0.25f){
+                    incrementUp = true;
+                    System.out.println("Alpha hit lower limit!");
+                }
+
+                if(incrementUp){
+                    newAlpha = currAlpha + alphaIncrementUp;
+                    backImageA.setAlpha(newAlpha);
+                    backImageB.setAlpha(newAlpha);
+                }
+                else{
+                    newAlpha = currAlpha + alphaIncrementDown;
+                    backImageA.setAlpha(newAlpha);
+                    backImageB.setAlpha(newAlpha);
+                }
 
                 backImageA.setTranslationX(a_translationX);
                 backImageB.setTranslationX(b_translationX);
