@@ -9,6 +9,9 @@ import android.util.Log;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 
+import org.json.JSONException;
+
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -149,7 +152,15 @@ public class Missile {
 
                 if(bases.isEmpty()){
                     mainActivity.runOnUiThread(() -> {
-                        mainActivity.endGame();
+                        try {
+                            mainActivity.endGame();
+                        } catch (SQLException throwables) {
+                            throwables.printStackTrace();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        } catch (ClassNotFoundException e) {
+                            e.printStackTrace();
+                        }
                     });
                 }
                 base_destroyed = false;

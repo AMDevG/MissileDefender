@@ -17,6 +17,10 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -180,7 +184,7 @@ public class MainActivity extends AppCompatActivity {
         return baseList;
     }
 
-    public void endGame(){
+    public void endGame() throws SQLException, JSONException, ClassNotFoundException {
         System.out.println("ENDING GAME IN MAIN ACTIVITY");
         missileMaker.setRunning(false);
         gameOverImg.setVisibility(View.VISIBLE);
@@ -192,6 +196,10 @@ public class MainActivity extends AppCompatActivity {
 
 
         new Thread(new StudentDatabaseHandler(this, "JB", score, level)).start();
+
+        JSONArray highScores = StudentDatabaseHandler.getScoreList();
+
+        System.out.println("Retrieved highscore size: " + highScores.length());
 
     }
 }
