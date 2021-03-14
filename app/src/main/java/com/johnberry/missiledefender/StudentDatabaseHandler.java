@@ -114,7 +114,7 @@ public class StudentDatabaseHandler implements Runnable {
         conn = DriverManager.getConnection(dbURL, "chri5558_student", "ABC.123");
 
         Statement stmt = conn.createStatement();
-        String sql = "SELECT * from " + APP_SCORE_TABLE + " ORDER BY SCORE DESC";
+        String sql = "SELECT * from " + APP_SCORE_TABLE + " ORDER BY SCORE DESC LIMIT 10";
 
         StringBuilder sb = new StringBuilder();
 
