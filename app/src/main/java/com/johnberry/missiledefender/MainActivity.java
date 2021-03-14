@@ -24,7 +24,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements DialogAPI.DialogListener  {
 
     private ConstraintLayout layout;
     public static ArrayList<Base> baseList = new ArrayList<>();
@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private double interceptorBlast;
     private boolean hasHighScore = false;
     private int scoreToBeat;
+    private String initials;
 
     private MissileMaker missileMaker;
 
@@ -198,13 +199,26 @@ public class MainActivity extends AppCompatActivity {
         if(score > scoreToBeat){
             System.out.println("Made it to leaderboard enter initials here");
 
-            // CALL TO UPDATE
+            openDialog();
         }
         else{
+            openDialog();
             showLeaderBoard();
         }
 
     }
+
+    public void openDialog(){
+        DialogAPI dialogAPI = new DialogAPI();
+        dialogAPI.show(getSupportFragmentManager(),"Example Dialog");
+    }
+
+    @Override
+    public void applyTexts(String userInitials) {
+        initials = userInitials;
+        System.out.println("Got initials from dialog: " + initials);
+    }
+
 
     public static void highScores(JSONArray highScoresIn) throws JSONException {
         for(int i = 0; i < highScoresIn.length(); i++){
