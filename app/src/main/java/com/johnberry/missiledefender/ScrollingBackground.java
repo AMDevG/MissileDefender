@@ -34,6 +34,8 @@ class ScrollingBackground {
     private void setupBackground() {
         backImageA = new ImageView(context);
         backImageB = new ImageView(context);
+        backImageA.setAlpha(0.4f);
+        backImageB.setAlpha(0.4f);
 
         LinearLayout.LayoutParams params = new LinearLayout
                 .LayoutParams(screenWidth + getBarHeight(), screenHeight);

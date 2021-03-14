@@ -22,11 +22,11 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
         setupSounds();
-        SoundPlayer.start("background");
 
         ImageView myImageView= (ImageView)findViewById(R.id.titleImgView);
         Animation myFadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.slide_in);
         myImageView.startAnimation(myFadeInAnimation);
+        SoundPlayer.start("background");
 
         new Handler().postDelayed(() -> {
             Intent i = new Intent(SplashActivity.this, MainActivity.class);
