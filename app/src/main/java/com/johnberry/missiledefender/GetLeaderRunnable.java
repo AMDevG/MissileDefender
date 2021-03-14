@@ -15,14 +15,12 @@ import java.util.Locale;
 public class GetLeaderRunnable implements Runnable{
 
     private static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-
     private final LeaderBoardActivity leaderBoardActivity;
     private static String dbURL;
     private static Connection conn;
     private static final String APP_SCORE_TABLE = "AppScores";
     private final SimpleDateFormat sdf = new SimpleDateFormat("MM/dd HH:mm", Locale.getDefault());
     private static JSONArray highScores = new JSONArray();
-
 
     GetLeaderRunnable(LeaderBoardActivity leaderBoardActivity) throws SQLException, JSONException, ClassNotFoundException {
         this.leaderBoardActivity = leaderBoardActivity;
@@ -54,9 +52,7 @@ public class GetLeaderRunnable implements Runnable{
         String sql = "SELECT * from " + APP_SCORE_TABLE + " ORDER BY SCORE DESC LIMIT 10";
 
         StringBuilder sb = new StringBuilder();
-
         ResultSet rs = stmt.executeQuery(sql);
-
 
         while (rs.next()) {
             JSONArray recordArr = new JSONArray();
@@ -83,5 +79,7 @@ public class GetLeaderRunnable implements Runnable{
 
             highScores.put(recordArr);
         }
+        conn.close();
+        stmt.close();
     }
 }

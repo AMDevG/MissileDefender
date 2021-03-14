@@ -220,6 +220,7 @@ public class MainActivity extends AppCompatActivity implements DialogAPI.DialogL
         intent.putExtra("level", level);
         intent.putExtra("score", score);
         startActivity(intent);
+        finish();
     }
 
 
@@ -227,6 +228,7 @@ public class MainActivity extends AppCompatActivity implements DialogAPI.DialogL
         System.out.println("No update; Show leaderboard here");
         Intent intent = new Intent(this, LeaderBoardActivity.class);
         startActivity(intent);
+        finish();
     }
 
     public void setScoreToBeat(int score){

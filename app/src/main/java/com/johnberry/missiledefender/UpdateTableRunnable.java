@@ -20,12 +20,10 @@ public class UpdateTableRunnable implements Runnable{
     private static String dbURL;
     private static Connection conn;
     private static final String APP_SCORE_TABLE = "AppScores";
-    private final SimpleDateFormat sdf = new SimpleDateFormat("MM/dd HH:mm", Locale.getDefault());
 
     private final int score, level;
     private String initials;
     private final long time;
-    private boolean isHighScore;
 
     private static JSONArray highScores = new JSONArray();
 
@@ -36,9 +34,7 @@ public class UpdateTableRunnable implements Runnable{
         this.level = Integer.parseInt(level);
         this.initials = initials;
         dbURL = "jdbc:mysql://christopherhield.com:3306/chri5558_missile_defense";
-
     }
-
 
     public void run() {
         try {
@@ -51,9 +47,6 @@ public class UpdateTableRunnable implements Runnable{
     private void updateHighScore() throws SQLException, JSONException, ClassNotFoundException {
         Class.forName(JDBC_DRIVER);
         conn = DriverManager.getConnection(dbURL, "chri5558_student", "ABC.123");
-
-        System.out.println("In UPDATE TABLE RUNNER");
-
         Statement stmt = conn.createStatement();
 
         String sql = "insert into " + APP_SCORE_TABLE + " values (" +
@@ -65,8 +58,6 @@ public class UpdateTableRunnable implements Runnable{
         stmt.close();
         conn.close();
 
-        System.out.println("Updated DB!");
-
         createScoreList();
 
         leaderBoardActivity.runOnUiThread(() -> {
@@ -76,9 +67,8 @@ public class UpdateTableRunnable implements Runnable{
                 e.printStackTrace();
             }
         });
-
-
     }
+
     public void createScoreList() throws SQLException, JSONException, ClassNotFoundException {
 
         Class.forName(JDBC_DRIVER);
@@ -88,9 +78,7 @@ public class UpdateTableRunnable implements Runnable{
         String sql = "SELECT * from " + APP_SCORE_TABLE + " ORDER BY SCORE DESC LIMIT 10";
 
         StringBuilder sb = new StringBuilder();
-
         ResultSet rs = stmt.executeQuery(sql);
-
 
         while (rs.next()) {
             JSONArray recordArr = new JSONArray();
@@ -117,5 +105,7 @@ public class UpdateTableRunnable implements Runnable{
 
             highScores.put(recordArr);
         }
+        stmt.close();
+        conn.close();
     }
 }

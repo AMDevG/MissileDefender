@@ -13,6 +13,8 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
+
+// RUNS IN SPLASH ACTIVITY TO SET THE HIGH SCORE THRESHOLD TO ADD PLAYER TO TOP 10
 public class StudentDatabaseHandler implements Runnable {
 
     private static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
@@ -25,15 +27,11 @@ public class StudentDatabaseHandler implements Runnable {
 
     StudentDatabaseHandler(MainActivity mainActivity) {
         this.mainActivity = mainActivity;
-
         dbURL = "jdbc:mysql://christopherhield.com:3306/chri5558_missile_defense";
     }
 
     public void run() {
-
         try {
-            System.out.println("In Student DB Handler");
-
             int scoreToBeat = getLowestScore();
 
             mainActivity.runOnUiThread(() -> {
@@ -54,14 +52,12 @@ public class StudentDatabaseHandler implements Runnable {
         String sql = "SELECT * from " + APP_SCORE_TABLE + " ORDER BY SCORE DESC LIMIT 10";
 
         StringBuilder sb = new StringBuilder();
-
         ResultSet rs = stmt.executeQuery(sql);
 
         int lowestScore = 0;
-
         while (rs.next()) {
-
             int score = rs.getInt(3);
+
             if(lowestScore == 0){
                 lowestScore = score;
             }
@@ -69,11 +65,9 @@ public class StudentDatabaseHandler implements Runnable {
                 lowestScore = score;
             }
         }
-
         conn.close();
         stmt.close();
 
         return lowestScore;
     }
-
 }

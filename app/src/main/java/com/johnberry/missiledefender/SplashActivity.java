@@ -21,19 +21,16 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        SoundPlayer.setupSound(this, "background", R.raw.background);
+        setupSounds();
+        SoundPlayer.start("background");
 
         ImageView myImageView= (ImageView)findViewById(R.id.titleImgView);
         Animation myFadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.slide_in);
         myImageView.startAnimation(myFadeInAnimation);
 
-        SoundPlayer.start("background");
-
         new Handler().postDelayed(() -> {
-            Intent i =
-                    new Intent(SplashActivity.this, MainActivity.class);
+            Intent i = new Intent(SplashActivity.this, MainActivity.class);
             startActivity(i);
-
             finish();
         }, SPLASH_TIME_OUT);
     }
@@ -67,5 +64,9 @@ public class SplashActivity extends AppCompatActivity {
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                         | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+    }
+
+    private void setupSounds(){
+        SoundPlayer.setupSound(this, "background", R.raw.background);
     }
 }
