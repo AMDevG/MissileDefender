@@ -92,6 +92,8 @@ public class MissileMaker implements Runnable {
 
         ArrayList<Base> bases = mainActivity.getBaseList();
 
+        mainActivity.INTERCEPTORS_IN_AIR--;
+
         for (Missile m : temp) {
             float planeX = (int) (m.getX() + (0.5 * m.getWidth()));
             float planeY = (int) (m.getY() + (0.5 * m.getHeight()));

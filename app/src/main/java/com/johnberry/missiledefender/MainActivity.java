@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements DialogAPI.DialogL
     private String initials;
     int finalScore;
 
+    public int INTERCEPTORS_IN_AIR = 0;
     private MissileMaker missileMaker;
 
     @SuppressLint("ClickableViewAccessibility")
@@ -91,30 +92,35 @@ public class MainActivity extends AppCompatActivity implements DialogAPI.DialogL
 
     public void handleTouch(float xLoc, float yLoc) {
 
-        Base closestBase = null;
-        float shortestDistance = 0;
+        System.out.println("handleTouch: Interceptors in Air: " + INTERCEPTORS_IN_AIR);
 
-        if(baseList.size() != 0) {
-            for (Base b : baseList) {
-                float tmpDist = (float) Math.abs(b.getBaseX() - xLoc);
+        if(INTERCEPTORS_IN_AIR < 3) {
+            Base closestBase = null;
+            float shortestDistance = 0;
 
-                if (shortestDistance == 0) {
-                    shortestDistance = tmpDist;
-                    closestBase = b;
-                } else if (tmpDist < shortestDistance) {
-                    shortestDistance = tmpDist;
-                    closestBase = b;
+            if (baseList.size() != 0) {
+                for (Base b : baseList) {
+                    float tmpDist = (float) Math.abs(b.getBaseX() - xLoc);
+
+                    if (shortestDistance == 0) {
+                        shortestDistance = tmpDist;
+                        closestBase = b;
+                    } else if (tmpDist < shortestDistance) {
+                        shortestDistance = tmpDist;
+                        closestBase = b;
+                    }
                 }
+
+                launcher = closestBase.getBaseImg();
+
+                double startX = launcher.getX() + (0.5 * launcher.getWidth());
+                double startY = launcher.getY() + (0.5 * launcher.getHeight());
+
+                Interceptor i = new Interceptor(this, (float) (startX - 10), (float) (startY - 30), xLoc, yLoc);
+                INTERCEPTORS_IN_AIR++;
+                SoundPlayer.start("launch_interceptor");
+                i.launch();
             }
-
-            launcher = closestBase.getBaseImg();
-
-            double startX = launcher.getX() + (0.5 * launcher.getWidth());
-            double startY = launcher.getY() + (0.5 * launcher.getHeight());
-
-            Interceptor i = new Interceptor(this, (float) (startX - 10), (float) (startY - 30), xLoc, yLoc);
-            SoundPlayer.start("launch_interceptor");
-            i.launch();
         }
     }
 

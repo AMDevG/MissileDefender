@@ -18,7 +18,7 @@ class Interceptor {
     private float endX;
     private float endY;
     private static int idVal = -1;
-    private static final double DISTANCE_TIME = 0.75;
+    private static final double DISTANCE_TIME = 0.9;
 
     Interceptor(MainActivity mainActivity, float startX, float startY, float endX, float endY) {
         this.mainActivity = mainActivity;
