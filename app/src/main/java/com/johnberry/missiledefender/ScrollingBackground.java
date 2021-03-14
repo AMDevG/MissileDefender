@@ -87,11 +87,9 @@ class ScrollingBackground {
 
                 if(currAlpha >= 0.95f){
                     incrementUp = false;
-                    System.out.println("Alpha hit upper limit!");
                 }
                 else if(currAlpha <= 0.25f){
                     incrementUp = true;
-                    System.out.println("Alpha hit lower limit!");
                 }
 
                 if(incrementUp){

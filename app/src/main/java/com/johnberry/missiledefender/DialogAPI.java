@@ -29,7 +29,6 @@ public class DialogAPI extends AppCompatDialogFragment {
         View view = inflater.inflate(R.layout.sign_in_dialog,null);
         builder.setView(view)
                 .setTitle("Top Score!")
-
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
