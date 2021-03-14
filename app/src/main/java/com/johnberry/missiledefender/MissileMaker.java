@@ -15,7 +15,7 @@ public class MissileMaker implements Runnable {
     private final int screenHeight;
     private int planeCount = 0;
     private static int LEVEL_CHANGE_VALUE = 5;
-    private static final int INTERCEPTOR_BLAST_RANGE = 150;
+    private static final int INTERCEPTOR_BLAST_RANGE = 120;
     private int level = 1;
     private long delay = 4000; // Pause between new missiles
 

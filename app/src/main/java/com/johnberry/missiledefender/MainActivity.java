@@ -9,12 +9,15 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -194,18 +197,23 @@ public class MainActivity extends AppCompatActivity implements DialogAPI.DialogL
 
     public void endGame() throws SQLException, JSONException, ClassNotFoundException {
         missileMaker.setRunning(false);
+
         gameOverImg.setVisibility(View.VISIBLE);
+        Animation myFadeOutAnimation = AnimationUtils.loadAnimation(this, R.anim.slide_out);
+        gameOverImg.startAnimation(myFadeOutAnimation);
 
         finalScore = scoreValue;
         int level = missileMaker.getLevel();
 
+        new Handler().postDelayed(() -> {
+            if(finalScore > scoreToBeat){
+                openDialog();
+            }
+            else{
+                showLeaderBoard();
+            }
+        }, 3000);
 
-        if(finalScore > scoreToBeat){
-            openDialog();
-        }
-        else{
-            showLeaderBoard();
-        }
     }
 
     public void openDialog(){
