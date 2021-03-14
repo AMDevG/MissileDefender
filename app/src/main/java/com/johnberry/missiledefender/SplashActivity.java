@@ -14,6 +14,7 @@ public class SplashActivity extends AppCompatActivity {
 
     private final int SPLASH_TIME_OUT = 4000;
     private boolean fullScreen = true;
+    private MainActivity mainActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

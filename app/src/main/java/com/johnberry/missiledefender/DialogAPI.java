@@ -11,6 +11,10 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
+import org.json.JSONException;
+
+import java.sql.SQLException;
+
 
 public class DialogAPI extends AppCompatDialogFragment {
 
@@ -32,7 +36,15 @@ public class DialogAPI extends AppCompatDialogFragment {
 
                          String initialsIn = initialsText.getText().toString();
 
-                        listener.applyTexts(initialsIn);
+                        try {
+                            listener.applyTexts(initialsIn);
+                        } catch (SQLException throwables) {
+                            throwables.printStackTrace();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        } catch (ClassNotFoundException e) {
+                            e.printStackTrace();
+                        }
 
                     }
                 });
@@ -50,6 +62,6 @@ public class DialogAPI extends AppCompatDialogFragment {
     }
 
     public interface DialogListener{
-        void applyTexts(String userInitials);
+        void applyTexts(String userInitials) throws SQLException, JSONException, ClassNotFoundException;
     }
 }

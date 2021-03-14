@@ -45,9 +45,10 @@ public class MainActivity extends AppCompatActivity implements DialogAPI.DialogL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        new Thread(new StudentDatabaseHandler(this )).start();
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
-        new Thread(new StudentDatabaseHandler(this)).start();
+
         setupFullScreen();
         getScreenDimensions();
         setupSounds();
@@ -198,11 +199,9 @@ public class MainActivity extends AppCompatActivity implements DialogAPI.DialogL
 
         if(score > scoreToBeat){
             System.out.println("Made it to leaderboard enter initials here");
-
             openDialog();
         }
         else{
-            openDialog();
             showLeaderBoard();
         }
 
@@ -214,9 +213,10 @@ public class MainActivity extends AppCompatActivity implements DialogAPI.DialogL
     }
 
     @Override
-    public void applyTexts(String userInitials) {
+    public void applyTexts(String userInitials) throws SQLException, JSONException, ClassNotFoundException {
         initials = userInitials;
         System.out.println("Got initials from dialog: " + initials);
+        updateLeaderBoard(initials);
     }
 
 
@@ -229,32 +229,21 @@ public class MainActivity extends AppCompatActivity implements DialogAPI.DialogL
         }
     }
 
-//    public void setHasHighScore(boolean scoreFlag) throws SQLException, JSONException, ClassNotFoundException {
-//        hasHighScore = scoreFlag;
-//        if(hasHighScore){
-//            System.out.println("High score registered calling updateLeaderboard!");
-//            updateLeaderBoard();
-//            }
-//        else{
-//            showLeaderBoard();
-//        }
-//    }
-
-    private void updateLeaderBoard() throws SQLException, JSONException, ClassNotFoundException {
-        //GET INITIALS HERE
-        String initials = "CB";
+    private void updateLeaderBoard(String initials) throws SQLException, JSONException, ClassNotFoundException {
         int level = missileMaker.getLevel();
-
         UpdateTableRunnable updateTableRunnable = new UpdateTableRunnable(this, scoreValue, level, initials);
         new Thread(updateTableRunnable).start();
         }
 
-    private void showLeaderBoard(){
+    private void showLeaderBoard() throws SQLException, JSONException, ClassNotFoundException {
         System.out.println("No update; Show leaderboard here");
+        GetLeaderRunnable getLeaderRunnable = new GetLeaderRunnable(this);
+        new Thread(getLeaderRunnable).start();
+
     }
 
     public void setScoreToBeat(int score){
         scoreToBeat = score;
         System.out.println("Retrieved lowest high score: " + scoreToBeat);
     }
-    }
+}
